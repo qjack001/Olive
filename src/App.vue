@@ -1,9 +1,13 @@
 <template>
 	<writer/>
+	<cursor/>
+	<control-panel/>
 </template>
 
 <script setup>
 	import Writer from './components/Writer.vue'
+	import Cursor from './components/Cursor.vue'
+	import ControlPanel from './components/ControlPanel.vue'
 </script>
 
 <style>
