@@ -88,6 +88,8 @@
 		padding: 0 10px;
 		margin: 0 auto;
 
+		animation: fade-in 1.1s ease-in;
+		animation-iteration-count: 1;
 	}
 
 	.radio-box
@@ -105,6 +107,10 @@
 		border-radius: 5px;
 
 		opacity: 0.6;
+		animation: fade-in 0.8s ease-in, scale-up 1.2s cubic-bezier(0, 0, 0.25, 1);
+		animation-delay: 0.1s;
+		animation-fill-mode: forwards;
+		animation-iteration-count: 1;
 	}
 	
 	.radio-box input[type=radio]
@@ -122,6 +128,9 @@
 		
 		color: #ffffff;
 		border-radius: 4px;
+
+		animation: scale-down 1.4s cubic-bezier(0, 0, 0.25, 1);
+		animation-iteration-count: 1;
 	}
 
 	.radio-box input[type=radio]:checked + label
@@ -139,6 +148,25 @@
 	{
 		opacity: 0;
 		pointer-events: none;
+	}
+
+	@keyframes fade-in
+	{
+		0%   { opacity: 0.0; }
+		10%  { opacity: 0.0; }
+		100% { opacity: 0.6; }
+	}
+
+	@keyframes scale-up
+	{
+		0%   { transform: scaleX(0.5); }
+		100% { transform: scaleX(1);   }
+	}
+
+	@keyframes scale-down
+	{
+		0%   { transform: scaleX(2); }
+		100% { transform: scaleX(1);  }
 	}
 
 	@media print
