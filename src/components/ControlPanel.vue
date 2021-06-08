@@ -1,9 +1,9 @@
 <template>
-	<section>
+	<section class="controls">
 		<logo/>
 		<p>
-			Use the arrow keys to navigate the cursor. SHIFT + arrow keys moves in large steps, 
-			ALT + arrow keys moves in micro steps. Press CMD+P to export as a PDF. Press ESC to 
+			Use the arrow keys to navigate the cursor. [SHIFT] + arrow keys moves in large steps, 
+			[ALT] + arrow keys moves in micro steps. Press [CMD] + P to export as a PDF. Press [ESC] to 
 			hide this UI.
 		</p>
 		<div class="radio-box" v-on:change="updateFont">
@@ -66,7 +66,7 @@
 		bottom: 0;
 
 		text-align: center;
-		font-size: 0.6em;
+		font-size: 8.5px;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 	}
@@ -78,45 +78,47 @@
 		max-width: 70ch;
 		padding: 0 10px;
 		margin: 0 auto;
-	}
 
-	input[type=radio]
-	{
-		visibility: hidden;
 	}
 
 	.radio-box
 	{
 		pointer-events: all;
-		border-radius: 5px;
+		user-select: none;
 		position: relative;
 		overflow: hidden;
-		background: #c2c2c2;
-		width: 70ch;
-		max-width: 90%;
 		z-index: 99;
 		margin: 10px auto;
+
+		width: calc(70ch - 8px);
+		max-width: 90%;
+		background: #9a9a9a;
+		border-radius: 5px;
+
+		opacity: 0.6;
 	}
 	
 	.radio-box input[type=radio]
 	{
 		display: none;
+		visibility: hidden;
 	}
 
 	.radio-box label
 	{
 		display: inline-block;
-		padding: 4px 10px;
 		cursor: pointer;
-		border-radius: 4px;
-		color: #ffffff;
 		margin: 3px 0;
+		padding: 4px 10px;
+		
+		color: #ffffff;
+		border-radius: 4px;
 	}
 
 	.radio-box input[type=radio]:checked + label
 	{
 		background: #f6f6f6;
-		color: rgba(0, 0, 0, 0.6);
+		color: #000000;
 	}
 
 	section *
