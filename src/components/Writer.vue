@@ -11,7 +11,7 @@
 		<span 
 			v-for="char in characters.list" 
 			:key="char.id"
-			:style="{ left: char.posX, top: char.posY, opacity: char.opacity, transform: 'rotate('+char.rot+'deg)' }"
+			:style="{ left: char.posX, top: char.posY, /* opacity: char.opacity, transform: 'rotate('+char.rot+'deg)' */ }"
 			class="letter"
 		>
 			{{ char.value }}
@@ -163,9 +163,9 @@
 			id: newId(),
 			value: letter,
 			posX: position.x+'px',
-			posY: position.y+'px',
-			rot: newRotation(),
-			opacity: newOpacity()
+			posY: position.y+'px'
+			// rot: newRotation(),
+			// opacity: newOpacity()
 		})
 
 		movePositionX(1)
@@ -179,17 +179,17 @@
 		return newId
 	}
 
-	const newRotation = () =>
-	{
-		// between 1 and -1
-		return 0; // nah for now
-	}
+	// const newRotation = () =>
+	// {
+	// 	// between 2 and -2
+	// 	return -2 + (Math.random() * 4)
+	// }
 
-	const newOpacity = () =>
-	{
-		// between 0.7 and 0.8
-		return 0.75; // nah for now
-	}
+	// const newOpacity = () =>
+	// {
+	// 	// between 0.7 and 1
+	// 	return 0.7 + (Math.random() * 0.3)
+	// }
 
 	const refocus = () =>
 	{
@@ -198,12 +198,12 @@
 
 	const sleep = (ms) =>
 	{
-		const start = Date.now();
-		let now = null;
+		const start = Date.now()
+		let now = null
 		do
 		{
-			now = Date.now();
-		} while (now - start < ms);
+			now = Date.now()
+		} while (now - start < ms)
 	}
 </script>
 
@@ -230,7 +230,7 @@
 	.letter
 	{
 		white-space: pre;
-		opacity: 0.6;
+		opacity: 0.75;
 
 		display: block;
 		position: absolute;
