@@ -11,11 +11,6 @@
 </script>
 
 <style>
-	@font-face 
-	{
-		font-family: "old-typewriter";
-		src: url("/old-typewriter.ttf");
-	}
 
 	@font-face 
 	{
@@ -25,13 +20,25 @@
 
 	@font-face 
 	{
+		font-family: "classic-typewriter";
+		src: url("/classic-typewriter.ttf");
+	}
+
+	@font-face 
+	{
+		font-family: "old-typewriter";
+		src: url("/old-typewriter.ttf");
+	}
+
+	@font-face 
+	{
 		font-family: "italic-typewriter";
-		src: url("/italic-typewriter.otf");
+		src: url("/italic-typewriter.ttf");
 	}
 
 	body
 	{
-		font-family: "modern-typewriter", "old-typewriter", "italic-typewriter", monospace;
+		font-family: "modern-typewriter", "classic-typewriter", "old-typewriter", "italic-typewriter", monospace;
 		font-size: 14px;
 	}
 
@@ -40,14 +47,21 @@
 		font-family: "modern-typewriter", monospace;
 	}
 
+	body.classic
+	{
+		font-family: "classic-typewriter", monospace;
+	}
+
 	body.old
 	{
 		font-family: "old-typewriter", monospace;
+		font-size: 12px; /* adjustment for specific font */
 	}
 
 	body.italic
 	{
 		font-family: "italic-typewriter", monospace;
+		font-size: 12px; /* adjustment for specific font */
 	}
 
 	@media print
