@@ -2,14 +2,39 @@
 	<section>
 		<logo/>
 		<p>
-			Use the arrow keys to navigate the paper around. SHIFT + arrow keys moves 
-			in bigger jumps, ALT + arrow keys moves in micro jumps. Press CMD+P to export
-			as a PDF.
+			Use the arrow keys to navigate the cursor. SHIFT + arrow keys moves in large steps, 
+			ALT + arrow keys moves in micro steps. Press CMD+P to export as a PDF. Press ESC to 
+			hide this UI.
 		</p>
 		<div class="radio-box" v-on:change="updateFont">
-			<input type="radio" name="font" id="font-radio-1" checked><label for="radio-1">Modern</label>
-			<input type="radio" name="font" id="font-radio-2"><label for="radio-2">Very Old</label>
-			<input type="radio" name="font" id="font-radio-3"><label for="radio-3">Italic</label>
+			<input 
+				value="modern" 
+				type="radio" 
+				name="font" 
+				id="font-radio-1" 
+				checked
+			>
+			<label for="font-radio-1">
+				Modern
+			</label>
+			<input 
+				value="old" 
+				type="radio" 
+				name="font" 
+				id="font-radio-2"
+			>
+			<label for="font-radio-2">
+				Very Old
+			</label>
+			<input 
+				value="italic"
+				type="radio" 
+				name="font" 
+				id="font-radio-3"
+			>
+			<label for="font-radio-3">
+				Italic
+			</label>
 		</div>
 	</section>
 </template>
@@ -19,6 +44,8 @@
 
 	const updateFont = () =>
 	{
+		let font = document.querySelector('input[name="font"]:checked').value
+		document.body.className = font || ''
 	}
 </script>
 
@@ -66,6 +93,7 @@
 		overflow: hidden;
 		background: #c2c2c2;
 		width: 70ch;
+		max-width: 90%;
 		z-index: 99;
 		margin: 10px auto;
 	}
@@ -89,6 +117,17 @@
 	{
 		background: #f6f6f6;
 		color: rgba(0, 0, 0, 0.6);
+	}
+
+	section *
+	{
+		transition: opacity 0.3s ease;
+	}
+
+	.hide-ui section *
+	{
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	@media print
