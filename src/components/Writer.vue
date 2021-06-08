@@ -41,7 +41,7 @@
 	onMounted(() => { document.getElementById('writer').focus() });
 
 	// functions
-	
+
 	const movePositionX = (amount) =>
 	{
 		position.x += widthUnit * amount
@@ -89,14 +89,23 @@
 		else if (e.key == 'Enter')
 		{
 			movePositionY(1)
+
+			if (position.x > (2 * widthUnit))
+			{
+				rtNoise() // only make return noise when more than 2 characters in
+			}
+
 			// animate cartridge return
-			rtNoise()
 			setTimeout(() => {
 				let el = document.getElementById("output")
 				el.classList.add("animate")
 				movePositionX(-maxWidth)
 				setTimeout(() => { el.classList.remove("animate") }, 400)
 			}, 20)
+		}
+		else if (e.key == 'Tab')
+		{
+			movePositionX(4)
 		}
 		else if (['Backspace', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key))
 		{
@@ -216,8 +225,6 @@
 
 	.letter
 	{
-		font-family: "typewriter", monospace;
-		font-size: 14px;
 		white-space: pre;
 		opacity: 0.6;
 
@@ -238,7 +245,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		z-index: 999;
+		z-index: 99;
 		
 		border: none;
 		box-shadow: none;
