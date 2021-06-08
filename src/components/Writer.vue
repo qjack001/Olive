@@ -85,7 +85,11 @@
 		if (e.key != null && e.key === 'Unidentified')
 		{
 			console.log('unknown key event: '+e.keyCode)
-		} 
+		}
+		else if (e.key == 'Escape')
+		{
+			document.body.classList.toggle("hide-ui")
+		}
 		else if (e.key == 'Enter')
 		{
 			movePositionY(1)
