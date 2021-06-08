@@ -18,21 +18,30 @@
 				Modern
 			</label>
 			<input 
-				value="old" 
+				value="classic" 
 				type="radio" 
 				name="font" 
 				id="font-radio-2"
 			>
 			<label for="font-radio-2">
+				Classic
+			</label>
+			<input 
+				value="old" 
+				type="radio" 
+				name="font" 
+				id="font-radio-3"
+			>
+			<label for="font-radio-3">
 				Very Old
 			</label>
 			<input 
 				value="italic"
 				type="radio" 
 				name="font" 
-				id="font-radio-3"
+				id="font-radio-4"
 			>
-			<label for="font-radio-3">
+			<label for="font-radio-4">
 				Italic
 			</label>
 		</div>
