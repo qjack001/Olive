@@ -14,19 +14,19 @@
 	@font-face 
 	{
 		font-family: "old-typewriter";
-		src: url("./old-typewriter.ttf");
+		src: url("/old-typewriter.ttf");
 	}
 
 	@font-face 
 	{
 		font-family: "modern-typewriter";
-		src: url("./modern-typewriter-edit.ttf");
+		src: url("/modern-typewriter-edit.ttf");
 	}
 
 	@font-face 
 	{
 		font-family: "italic-typewriter";
-		src: url("./italic-typewriter.otf");
+		src: url("/italic-typewriter.otf");
 	}
 
 	body
