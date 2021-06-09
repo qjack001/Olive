@@ -16,6 +16,14 @@
 		width: 250px;
 		max-width: 80%;
 		opacity: 0.3;
+
+		transition: opacity 0.3s ease;
+	}
+
+	.hide-ui svg
+	{
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	@media print
