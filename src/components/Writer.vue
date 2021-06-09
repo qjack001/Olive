@@ -29,9 +29,9 @@
 	const maxWidth   = 672  // width: 672px, (baseUnit * 84)
 
 	// sound effects
-	const dingNoise = Sounds.createNew("./ding.wav", 1, 1)
-	const rtNoise = Sounds.createNew("./return.wav", 1, 0.8)
-	const clickNoise = Sounds.createNew("./click.mp3", 1, 0.1)
+	const dingNoise  = Sounds.createNew("./ding.mp3",   1, 1)
+	const rtNoise    = Sounds.createNew("./return.mp3", 1, 0.8)
+	const clickNoise = Sounds.createNew("./click.mp3",  1, 0.1)
 
 	// reactive vars: current position and list of all letter objects
 	const position   = reactive({ x: 0, y: 0 })
@@ -80,7 +80,6 @@
 		}
 
 		e.preventDefault()
-		clickNoise()
 		
 		if (e.key != null && e.key === 'Unidentified')
 		{
@@ -109,6 +108,7 @@
 		}
 		else if (e.key == 'Tab')
 		{
+			clickNoise()
 			movePositionX(4)
 		}
 		else if (['Backspace', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key))
@@ -168,6 +168,7 @@
 			// opacity: newOpacity()
 		})
 
+		clickNoise()
 		movePositionX(1)
 	}
 
