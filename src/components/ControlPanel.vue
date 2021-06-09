@@ -64,7 +64,7 @@
 		z-index: 999;
 		pointer-events: none;
 
-		font-family: "modern-typewriter", "old-typewriter", "italic-typewriter", monospace;
+		font-family: "modern-typewriter", "classic-typewriter", "old-typewriter", "italic-typewriter", monospace;
 		background: rgba(238, 238, 238, 0.5);
 		backdrop-filter: blur(5px);
 
@@ -102,6 +102,7 @@
 		width: calc(70ch - 8px);
 		max-width: 90%;
 		background: #9a9a9a;
+		box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 		border-radius: 5px;
 
 		opacity: 0.6;
@@ -122,12 +123,14 @@
 		
 		color: #ffffff;
 		border-radius: 4px;
+		text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
 	}
 
 	.radio-box input[type=radio]:checked + label
 	{
 		background: #f6f6f6;
 		color: #000000;
+		text-shadow: none;
 	}
 
 	section *
