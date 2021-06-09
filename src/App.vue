@@ -11,29 +11,36 @@
 </script>
 
 <style>
-
-	@font-face 
+	@font-face
 	{
-		font-family: "modern-typewriter";
-		src: url("/modern-typewriter-edit.ttf");
+		font-family: 'modern-typewriter';
+		src: url('modern-typewriter.woff2') format('woff2'),
+			url('modern-typewriter.woff') format('woff');
+		font-display: swap;
 	}
 
-	@font-face 
+	@font-face
 	{
-		font-family: "classic-typewriter";
-		src: url("/classic-typewriter.ttf");
+		font-family: 'classic-typewriter';
+		src: url('classic-typewriter.woff2') format('woff2'),
+			url('classic-typewriter.woff') format('woff');
+		font-display: block;
 	}
 
-	@font-face 
+	@font-face
 	{
-		font-family: "old-typewriter";
-		src: url("/old-typewriter.ttf");
+		font-family: 'old-typewriter';
+		src: url('old-typewriter.woff2') format('woff2'),
+			url('old-typewriter.woff') format('woff');
+		font-display: block;
 	}
 
-	@font-face 
+	@font-face
 	{
-		font-family: "italic-typewriter";
-		src: url("/italic-typewriter.ttf");
+		font-family: 'italic-typewriter';
+		src: url('italic-typewriter.woff2') format('woff2'),
+			url('italic-typewriter.woff') format('woff');
+		font-display: block;
 	}
 
 	body
