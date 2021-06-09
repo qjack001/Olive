@@ -32,6 +32,7 @@
 	const dingNoise  = Sounds.createNew("./ding.mp3",   1, 1)
 	const rtNoise    = Sounds.createNew("./return.mp3", 1, 0.8)
 	const clickNoise = Sounds.createNew("./click.mp3",  1, 0.1)
+	const moveNoise = Sounds.createNew("./chunk.mp3",  0.5, 0.01)
 
 	// reactive vars: current position and list of all letter objects
 	const position   = reactive({ x: 0, y: 0 })
@@ -44,6 +45,7 @@
 
 	const movePositionX = (amount) =>
 	{
+		moveNoise()
 		position.x += widthUnit * amount
 
 		if (position.x > maxWidth - widthUnit)
@@ -63,6 +65,7 @@
 
 	const movePositionY = (amount) =>
 	{
+		moveNoise()
 		position.y += heightUnit * amount
 
 		if (position.y < 0)
