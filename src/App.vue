@@ -1,4 +1,5 @@
 <template>
+	<div id="drag-region"></div>
 	<writer/>
 	<cursor/>
 	<control-panel/>
@@ -73,6 +74,18 @@
 	{
 		font-family: "italic-typewriter", monospace;
 		font-size: 12px; /* adjustment for specific font */
+	}
+
+	#drag-region
+	{
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		height: 40px;
+		z-index: 9999;
+		-webkit-app-region: drag;
 	}
 
 	@media print
