@@ -1,54 +1,18 @@
 {
-	"name": "typeright",
-	"version": "1.0.0",
-	"description": "A simple typewriter application",
-	"author": "Jack Guinane <jackguinane@gmail.com>",
-	"homepage": "https://github.com/qjack001/Typeright",
-	"main": "main.js",
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"serve": "vite build && serve dist",
-		"electron:start": "vite build && electron .",
-		"pack": "electron-builder --dir",
-		"dist": "vite build && electron-builder"
-	},
-	"build": {
-		"productName": "Typeright",
-		"appId": "com.electron.typeright",
-		"dmg": {
-			"contents": [
-			{
-					"x": 110,
-					"y": 150
-				},
-				{
-					"x": 240,
-					"y": 150,
-					"type": "link",
-					"path": "/Applications"
-				}
-			]
-		},
-		"mac": {
-			"category": "your.app.category.type"
-		},
-		"files": [
-			"*.js",
-			"dist",
-			"node_modules"
-		]
-	},
-	"dependencies": {
-		"vue": "^3.0.5"
-	},
-	"devDependencies": {
-		"@vitejs/plugin-vue": "^1.2.3",
-		"@vue/compiler-sfc": "^3.0.5",
-		"electron": "^13.1.6",
-		"electron-builder": "^22.11.7",
-		"https-localhost": "^4.6.5",
-		"vite": "^2.3.5",
-		"vite-plugin-pwa": "^0.7.3"
-	}
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite build && serve dist"
+  },
+  "dependencies": {
+    "vue": "^3.0.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.3",
+    "@vue/compiler-sfc": "^3.0.5",
+    "https-localhost": "^4.6.5",
+    "vite": "^2.3.5",
+    "vite-plugin-pwa": "^0.7.3"
+  }
 }
