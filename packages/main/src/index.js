@@ -1,22 +1,19 @@
-const { app, BrowserWindow, Menu } = require('electron')
-const path = require('path')
-const fs = require('fs')
-const os = require('os')
+import { app, BrowserWindow, Menu } from 'electron';
+import { URL } from 'url';
+const path = require('path');
+const fs = require('fs');
+const os = require('os');
 
-function createWindow ()
-{
-	const win = new BrowserWindow(
-	{
+
+const createWindow = async () => {
+	const win = new BrowserWindow({
+		show: false,
 		width: 1200,
 		height: 800,
 		minWidth: 480,
-		titleBarStyle: 'hiddenInset',
-		webPreferences:
-		{
-			preload: path.join(__dirname, 'preload.js')
-		}
-	})
-	
+		titleBarStyle: 'hiddenInset'
+	});
+
 	const template =
 	[
 		{
@@ -108,11 +105,23 @@ function createWindow ()
 			]
 		}
 	]
-	  
+		
 	const menu = Menu.buildFromTemplate(template)
 	Menu.setApplicationMenu(menu)
-	win.loadFile('./dist/index.html')
-}
+
+	// @see https://github.com/electron/electron/issues/25012
+	win.on('ready-to-show', () => {
+		win?.show();
+	});
+
+	const pageUrl = new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
+	await win.loadURL(pageUrl);
+};
+
+
+app.on('window-all-closed', () => {
+	app.quit();
+});
 
 app.whenReady().then(() => {
 	createWindow()
@@ -122,8 +131,12 @@ app.whenReady().then(() => {
 			createWindow()
 		}
 	})
-})
+}).catch((e) => console.error('Failed create window:', e));
 
-app.on('window-all-closed', () => {
-	app.quit()
-})
+
+// Auto-updates
+app.whenReady()
+	.then(() => import('electron-updater'))
+	.then(({autoUpdater}) => autoUpdater.checkForUpdatesAndNotify())
+	.catch((e) => console.error('Failed check updates:', e));
+
