@@ -10,6 +10,9 @@
 		"node": ">=v14.16",
 		"npm": ">=7.7"
 	},
+	"browserslist": [
+		"Chrome 91"
+	],
 	"scripts": {
 		"build": "node scripts/build.js",
 		"precompile": "cross-env MODE=production npm run build",
