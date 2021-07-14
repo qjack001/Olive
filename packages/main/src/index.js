@@ -11,7 +11,8 @@ const createWindow = async () => {
 		width: 1200,
 		height: 800,
 		minWidth: 480,
-		titleBarStyle: 'hiddenInset'
+		titleBarStyle: 'hiddenInset',
+		backgroundColor: 'white'
 	});
 
 	const template =
