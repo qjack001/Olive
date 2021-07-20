@@ -1,7 +1,8 @@
 <template>
 	<input 
 		id="writer"
-		v-on:keydown="pressKey" 
+		v-on:keydown="pressKey"
+		v-on:keyup="checkDelete"
 		@blur="refocus"
 	>
 	<p 
@@ -12,7 +13,7 @@
 			v-for="char in characters.list" 
 			:key="char.id"
 			:style="{ left: char.posX, top: char.posY, /* opacity: char.opacity, transform: 'rotate('+char.rot+'deg)' */ }"
-			class="letter"
+			:class="{ 'letter': true, 'erase': char.erase }"
 		>
 			{{ char.value }}
 		</span>
@@ -32,11 +33,14 @@
 	const dingNoise  = Sounds.createNew("./ding.mp3",   1, 1)
 	const rtNoise    = Sounds.createNew("./return.mp3", 1, 0.8)
 	const clickNoise = Sounds.createNew("./click.mp3",  1, 0.1)
-	const moveNoise = Sounds.createNew("./chunk.mp3",  0.5, 0.01)
+	const moveNoise  = Sounds.createNew("./chunk.mp3",  0.5, 0.01)
 
 	// reactive vars: current position and list of all letter objects
 	const position   = reactive({ x: 0, y: 0 })
 	const characters = reactive({ list: [] })
+	
+	// keep track of whether or not the backspace/delete key is held down
+	const deleteKeyPressed = reactive({ value: false })
 
 	// focus writer immediatly
 	onMounted(() => { document.getElementById('writer').focus() });
@@ -114,9 +118,13 @@
 			clickNoise()
 			movePositionX(4)
 		}
-		else if (['Backspace', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key))
+		else if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key))
 		{
 			handleMovment(e)
+		}
+		else if (e.key == 'Backspace')
+		{
+			deleteKeyPressed.value = true
 		}
 		else 
 		{
@@ -124,17 +132,18 @@
 		}
 	}
 
-	const handleMovment = (e) =>
+	const checkDelete = (e) =>
 	{
 		if (e.key == 'Backspace')
 		{
-			movePositionX(-1)
-			return
+			deleteKeyPressed.value = false
 		}
+	}
 
+	const handleMovment = (e) =>
+	{
 		// if shift pressed move 5 units, if alt pressed move 0.2 units, otherwise move 1 unit
 		let amount = (e.shiftKey) ? 5 : (e.altKey) ? 0.2 : 1
-
 
 		if (e.key == 'ArrowLeft')
 		{
@@ -166,7 +175,8 @@
 			id: newId(),
 			value: letter,
 			posX: position.x+'px',
-			posY: position.y+'px'
+			posY: position.y+'px',
+			erase: deleteKeyPressed.value
 			// rot: newRotation(),
 			// opacity: newOpacity()
 		})
@@ -238,6 +248,14 @@
 
 		display: block;
 		position: absolute;
+	}
+
+	.letter.erase
+	{
+		color: #fff !important;
+		opacity: 0.9 !important;
+		text-shadow: 0 0 1px #fff;
+		-webkit-print-color-adjust: exact;
 	}
 
 	input
