@@ -4,7 +4,6 @@
 	<cursor/>
 	<panel/>
 	<font-loader/>
-	<mobile-alert/>
 </template>
 
 <script setup>
@@ -13,7 +12,6 @@
 	import Cursor from './components/Cursor.vue'
 	import Panel from './components/Panel.vue'
 	import FontLoader from './components/FontLoader.vue'
-	import MobileAlert from './components/MobileAlert.vue'
 
 	onMounted(() => { 
 		window.menu.receive('set_font', (font) => document.body.className = font)
