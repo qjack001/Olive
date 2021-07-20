@@ -1,5 +1,5 @@
 {
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,7 +12,6 @@
     "@vitejs/plugin-vue": "^1.2.3",
     "@vue/compiler-sfc": "^3.0.5",
     "https-localhost": "^4.6.5",
-    "vite": "^2.3.5",
-    "vite-plugin-pwa": "^0.7.3"
+    "vite": "^2.3.5"
   }
 }
