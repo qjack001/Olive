@@ -2,15 +2,16 @@
 	<div id="drag-region"></div>
 	<writer/>
 	<cursor/>
-	<control-panel/>
+	<panel/>
 	<font-loader/>
 	<mobile-alert/>
 </template>
 
 <script setup>
+	import { onMounted } from 'vue'
 	import Writer from './components/Writer.vue'
 	import Cursor from './components/Cursor.vue'
-	import ControlPanel from './components/ControlPanel.vue'
+	import Panel from './components/Panel.vue'
 	import FontLoader from './components/FontLoader.vue'
 	import MobileAlert from './components/MobileAlert.vue'
 
