@@ -1,8 +1,7 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, Menu, dialog } from 'electron';
 import { URL } from 'url';
 const path = require('path');
 const fs = require('fs');
-const os = require('os');
 
 
 const createWindow = async () => {
@@ -12,7 +11,11 @@ const createWindow = async () => {
 		height: 800,
 		minWidth: 480,
 		titleBarStyle: 'hiddenInset',
-		backgroundColor: 'white'
+		backgroundColor: 'white',
+		
+		webPreferences: {
+			preload: path.join(__dirname, '../../preload/dist/index.cjs')
+		}
 	});
 
 	const template =
@@ -45,7 +48,14 @@ const createWindow = async () => {
 					}
 				},
 				{
-					label: 'Save PDF To Desktop',
+					label: 'Reset Document',
+					role: 'reload'
+				},
+				{
+					type: 'separator'
+				},
+				{
+					label: 'Print To PDF',
 					accelerator: 'CommandOrControl+P',
 					click: () =>
 					{ 
@@ -79,8 +89,9 @@ const createWindow = async () => {
 		{
 			label: 'Window',
 			submenu: [
-				{ role: 'reload'           },
-				{ role: 'toggleDevTools'   },
+				{ role: 'resetZoom'        },
+				{ role: 'zoomIn'           },
+				{ role: 'zoomOut'          },
 				{ type: 'separator'        },
 				{ role: 'minimize'         },
 				{ role: 'zoom'             },
@@ -102,13 +113,22 @@ const createWindow = async () => {
 						const { shell } = require('electron')
 						await shell.openExternal('https://github.com/qjack001/Typeright')
 					}
-				}
+				},
+				{ type: 'separator'        },
+				{ role: 'toggleDevTools'   },
+				{
+					label: 'Report An Issue',
+					click: async () => 
+					{
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/qjack001/Typeright/issues')
+					}
+				},
 			]
 		}
 	]
 		
-	const menu = Menu.buildFromTemplate(template)
-	Menu.setApplicationMenu(menu)
+	setWindowMenu(win, Menu.buildFromTemplate(template));
 
 	// @see https://github.com/electron/electron/issues/25012
 	win.on('ready-to-show', () => {
@@ -119,6 +139,21 @@ const createWindow = async () => {
 	await win.loadURL(pageUrl);
 };
 
+function setWindowMenu(win, menu) {
+	// On Mac we have to use Menu.setApplicationMenu whenever
+	// the focus changes. On Linux/Windows we can just give
+	// each window a unique menu.
+	if (process.platform === "darwin") {
+		Menu.setApplicationMenu(menu);
+
+		win.on("focus", () => {
+			Menu.setApplicationMenu(menu);
+		});
+	}
+	else {
+		win.setMenu(menu);
+	}
+}
 
 app.on('window-all-closed', () => {
 	app.quit();
