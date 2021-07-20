@@ -58,26 +58,31 @@ const createWindow = async () => {
 					label: 'Print To PDF',
 					accelerator: 'CommandOrControl+P',
 					click: () =>
-					{ 
-						win.webContents.printToPDF({}).then(data =>
+					{
+						var dateOptions = {
+							weekday: 'long',
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric',
+							hour: 'numeric',
+							minute: '2-digit',
+							second: '2-digit'
+						};
+
+						var defaultName = `Typeright - ${new Date().toLocaleString("en-US", dateOptions)}.pdf`
+
+						dialog.showSaveDialog(win, { defaultPath: defaultName, properties: ['createDirectory'], }).then(selection =>
 						{
-							var dateOptions = {
-								weekday: 'long',
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric',
-								hour: 'numeric',
-								minute: '2-digit',
-								second: '2-digit'
-							};
+							if (selection.canceled) return;
 
-							const pdfPath = path.join(os.homedir(), 'Desktop',
-								`Typeright - ${new Date().toLocaleString("en-US", dateOptions)}.pdf`)
-
-							fs.writeFile(pdfPath, data, (error) =>
+							win.webContents.printToPDF({ printBackground: true, marginsType: 1 }).then(data =>
 							{
-								if (error) throw error
-								console.log(`Wrote PDF successfully to ${pdfPath}`)
+								fs.writeFile(selection.filePath, data, (error) =>
+								{
+									if (error) dialog.showErrorBox('Unable to save PDF', 
+										'An unexpected error occurred and your document was not saved. ' +
+										'Please try again, and if the issue persists, report the issue.')
+								})
 							})
 						})
 					}
