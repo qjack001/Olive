@@ -13,6 +13,11 @@
 	import ControlPanel from './components/ControlPanel.vue'
 	import FontLoader from './components/FontLoader.vue'
 	import MobileAlert from './components/MobileAlert.vue'
+
+	onMounted(() => { 
+		window.menu.receive('set_font', (font) => document.body.className = font)
+		window.menu.receive('set_color', (color) => document.documentElement.className = color)
+	})
 </script>
 
 <style>

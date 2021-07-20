@@ -14,6 +14,14 @@ module.exports = {
 		},
 		{
 			root: './packages/main',
-		}
+		},
+		{
+			root: './packages/preload',
+		},
 	],
+	pluginOptions: {
+		electronBuilder: {
+			preload: './src/preload.js',
+		}
+	}
 };
