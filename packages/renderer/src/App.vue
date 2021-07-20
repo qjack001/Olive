@@ -52,10 +52,59 @@
 		font-display: block;
 	}
 
+	html
+	{
+		--background: rgb(255 255 255);
+		--tint: rgb(238 238 238 / 50%);
+	}
+
+	html.aged
+	{
+		--background: rgb(255 246 232);
+		--tint: rgb(210 199 175 / 50%);
+	}
+
+	html.red
+	{
+		--background: rgb(204 107 107);
+		--tint: rgb(165 78 78 / 50%);
+	}
+
+	html.blue
+	{
+		--background: rgb(157 181 222);
+		--tint: rgb(118 141 181 / 50%);
+	}
+
+	html.green
+	{
+		--background: rgb(157 222 187);
+		--tint: rgb(98 183 137 / 50%);
+	}
+
+	html.purple
+	{
+		--background: rgb(159 132 208);
+		--tint: rgb(126 100 173 / 50%);
+	}
+
+	html.pink
+	{
+		--background: rgb(255 212 249);
+		--tint: rgb(206 158 199 / 50%);
+	}
+
+	html.brown
+	{
+		--background: rgb(169 139 106);
+		--tint: rgb(144 111 72 / 50%);
+	}
+
 	body
 	{
 		font-family: "modern-typewriter", "classic-typewriter", "old-typewriter", "italic-typewriter", monospace;
 		font-size: 14px;
+		background: var(--background);
 	}
 
 	body.modern

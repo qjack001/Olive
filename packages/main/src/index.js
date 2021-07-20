@@ -82,6 +82,109 @@ const createWindow = async () => {
 						})
 					}
 				},
+				{
+					type: 'separator'
+				},
+				{ 
+					label: 'Typeface',
+					type: 'submenu',
+					submenu:
+					[
+						{
+							label: 'Modern',
+							type: 'radio',
+							checked: true,
+							click: () => { 
+								win.webContents.send('set_font', 'modern')
+							}
+						},
+						{
+							label: 'Classic',
+							type: 'radio',
+							click: () => { 
+								win.webContents.send('set_font', 'classic')
+							}
+						},
+						{
+							label: 'Very Old',
+							type: 'radio',
+							click: () => { 
+								win.webContents.send('set_font', 'old')
+							}
+						},
+						{
+							label: 'Italic',
+							type: 'radio',
+							click: () => { 
+								win.webContents.send('set_font', 'italic')
+							}
+						},
+					]
+				},
+				{ 
+					label: 'Paper Color',
+					type: 'submenu',
+					submenu:
+					[
+						{
+							label: 'White',
+							type: 'radio',
+							checked: true,
+							click: () => { 
+								win.webContents.send('set_color', 'white')
+							}
+						},
+						{
+							label: 'Aged',
+							type: 'radio',
+							click: () => { 
+								win.webContents.send('set_color', 'aged')
+							}
+						},
+						{
+							label: 'Red',
+							type: 'radio',
+							click: () => { 
+								win.webContents.send('set_color', 'red')
+							}
+						},
+						{
+							label: 'Blue',
+							type: 'radio',
+							click: () => { 
+								win.webContents.send('set_color', 'blue')
+							}
+						},
+						{
+							label: 'Green',
+							type: 'radio',
+							click: () => { 
+								win.webContents.send('set_color', 'green')
+							}
+						},
+						{
+							label: 'Purple',
+							type: 'radio',
+							click: () => { 
+								win.webContents.send('set_color', 'purple')
+							}
+						},
+						{
+							label: 'Brown',
+							type: 'radio',
+							click: () => { 
+								win.webContents.send('set_color', 'brown')
+							}
+						},
+						{
+							label: 'Pink',
+							type: 'radio',
+							click: () => { 
+								win.webContents.send('set_color', 'pink')
+							}
+						},
+					]
+				},
 				{ type: 'separator'        },
 				{ role: 'close'            },
 			]
