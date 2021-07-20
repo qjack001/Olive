@@ -107,7 +107,27 @@ const createWindow = async () => {
 			submenu: 
 			[
 				{
-					label: 'Learn More',
+					label: 'How To Use Typeright',
+					click: () => 
+					{
+						// TODO: rplace with custom help dialog
+						// const child = new BrowserWindow({ parent: win, modal: true, show: false })
+						// child.loadURL('https://github.com')
+						// child.once('ready-to-show', () => {
+						// 	child.show()
+						// })
+						dialog.showMessageBoxSync(win, {
+							title: 'How To Use Typeright',
+							message: 'Use the arrow keys to navigate the cursor. [SHIFT] + arrow keys moves in large steps, ' +
+							'[ALT] + arrow keys moves in micro steps. Erase a letter by holding the [DELETE] key and typing ' +
+							'the characters you want to remove.',
+							type: 'info',
+							buttons: ['OK']
+						})
+					}
+				},
+				{
+					label: 'Learn More...',
 					click: async () => 
 					{
 						const { shell } = require('electron')
