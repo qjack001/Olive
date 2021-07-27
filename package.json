@@ -1,17 +1,18 @@
 {
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite build && serve dist"
-  },
-  "dependencies": {
-    "vue": "^3.0.5"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^1.2.3",
-    "@vue/compiler-sfc": "^3.0.5",
-    "https-localhost": "^4.6.5",
-    "vite": "^2.3.5"
-  }
+	"name": "typeright",
+	"version": "1.0.0",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite build && serve dist"
+	},
+	"dependencies": {
+		"vue": "^3.0.5"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-vue": "^1.2.3",
+		"@vue/compiler-sfc": "^3.0.5",
+		"https-localhost": "^4.6.5",
+		"vite": "^2.3.5"
+	}
 }
