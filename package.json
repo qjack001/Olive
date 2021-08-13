@@ -7,11 +7,10 @@
 		"serve": "vite build && serve dist"
 	},
 	"dependencies": {
-		"vue": "^3.0.5"
+		"vue": "^3.2.2"
 	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^1.2.3",
-		"@vue/compiler-sfc": "^3.0.5",
 		"https-localhost": "^4.6.5",
 		"vite": "^2.3.5"
 	}
