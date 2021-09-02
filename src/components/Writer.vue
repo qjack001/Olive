@@ -22,7 +22,7 @@
 
 <script setup>
 	import { reactive, onMounted } from 'vue'
-	import Sounds from '../sounds'
+	// import Sounds from '../sounds'
 	import useSoundWithRandomPitch from '../useSoundWithRandomPitch'
 	import dingFx from '../assets/ding.mp3'
 	import returnFx from '../assets/return.mp3'
@@ -40,10 +40,10 @@
 	const { playSound: playMove } = useSoundWithRandomPitch(moveFx, 1, 0.1)
 
 	// sound effects
-	const dingNoise  = Sounds.createNew("./ding.mp3",   1, 1)
-	const rtNoise    = Sounds.createNew("./return.mp3", 1, 0.8)
-	const clickNoise = Sounds.createNew("./click.mp3",  1, 0.1)
-	const moveNoise  = Sounds.createNew("./chunk.mp3",  0.5, 0.01)
+	// const dingNoise  = Sounds.createNew("./ding.mp3",   1, 1)
+	// const rtNoise    = Sounds.createNew("./return.mp3", 1, 0.8)
+	// const clickNoise = Sounds.createNew("./click.mp3",  1, 0.1)
+	// const moveNoise  = Sounds.createNew("./chunk.mp3",  0.5, 0.01)
 
 	// reactive vars: current position and list of all letter objects
 	const position   = reactive({ x: 0, y: 0 })

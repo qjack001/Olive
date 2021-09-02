@@ -7,13 +7,14 @@ import {
 } from 'vue'
 
 function useSoundWithRandomPitch(id, volume, variation) {
-    const playbackRate = ref((1 - (variation / 2)) + 0.1);
+    const MIN_PITCH = (1 - (variation / 2)) + 0.1
+    const playbackRate = ref(MIN_PITCH);
     const {
         play
     } = useSound(id, {
         volume,
         playbackRate,
-        interrupt: true,
+        // interrupt: true,
     });
 
     function playSound() {
