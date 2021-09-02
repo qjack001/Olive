@@ -23,11 +23,21 @@
 <script setup>
 	import { reactive, onMounted } from 'vue'
 	import Sounds from '../sounds'
+	import useSoundWithRandomPitch from '../useSoundWithRandomPitch'
+	import dingFx from '../assets/ding.mp3'
+	import returnFx from '../assets/return.mp3'
+	import clickFx from '../assets/click.mp3'
+	import moveFx from '../assets/chunk.mp3'
 
 	// constants for defining units of movement, cursor
 	const widthUnit  =   8  // font-size: 14px
 	const heightUnit =  18
 	const maxWidth   = 672  // width: 672px, (baseUnit * 84)
+
+	const { playSound: playDing } = useSoundWithRandomPitch(dingFx, 1, 1)
+	const { playSound: playRt} = useSoundWithRandomPitch(returnFx, 1, 0.8)
+	const { playSound: playClick } = useSoundWithRandomPitch(clickFx, 1, 0.1)
+	const { playSound: playMove } = useSoundWithRandomPitch(moveFx, 1, 0.1)
 
 	// sound effects
 	const dingNoise  = Sounds.createNew("./ding.mp3",   1, 1)
@@ -49,7 +59,7 @@
 
 	const movePositionX = (amount) =>
 	{
-		moveNoise()
+		playMove()
 		position.x += widthUnit * amount
 
 		if (position.x > maxWidth - widthUnit)
@@ -63,13 +73,13 @@
 
 		if (position.x > maxWidth - (3 * widthUnit))
 		{
-			dingNoise()
+			playDing()
 		}
 	}
 
 	const movePositionY = (amount) =>
 	{
-		moveNoise()
+		playMove()
 		position.y += heightUnit * amount
 
 		if (position.y < 0)
@@ -102,7 +112,7 @@
 
 			if (position.x > (2 * widthUnit))
 			{
-				rtNoise() // only make return noise when more than 2 characters in
+				playRt() // only make return noise when more than 2 characters in
 			}
 
 			// animate cartridge return
@@ -115,7 +125,7 @@
 		}
 		else if (e.key == 'Tab')
 		{
-			clickNoise()
+			playClick()
 			movePositionX(4)
 		}
 		else if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key))
@@ -181,7 +191,7 @@
 			// opacity: newOpacity()
 		})
 
-		clickNoise()
+		playClick()
 		movePositionX(1)
 	}
 
