@@ -1,18 +1,28 @@
 {
-	"name": "typeright",
+	"name": "olive",
+	"author": "Jack Guinane",
+	"description": "A simple typewriter application.",
 	"version": "1.0.0",
+	"main": "build/main/main/main.js",
 	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"serve": "vite build && serve dist"
-	},
-	"dependencies": {
-		"vue": "^3.0.5"
+		"dev": "node scripts/dev-server.js",
+		"build": "node scripts/build.js && electron-builder",
+		"build:mac": "node scripts/build.js && electron-builder --mac && open ./dist/mac-arm64"
 	},
 	"devDependencies": {
-		"@vitejs/plugin-vue": "^1.2.3",
-		"@vue/compiler-sfc": "^3.0.5",
-		"https-localhost": "^4.6.5",
-		"vite": "^2.3.5"
+		"@types/uuid": "^9.0.1",
+		"@vitejs/plugin-vue": "^4.1.0",
+		"chalk": "^4.1.2",
+		"chokidar": "^3.5.3",
+		"electron": "^24.0.0",
+		"electron-builder": "^24.1.2",
+		"typescript": "^5.0.3",
+		"vite": "^4.2.1"
+	},
+	"dependencies": {
+		"@vueuse/sound": "^2.0.1",
+		"electron-first-run": "^3.0.0",
+		"uuid": "^9.0.0",
+		"vue": "^3.2.47"
 	}
 }

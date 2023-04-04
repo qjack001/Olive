@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' blob:">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>Olive: digital typewriter</title>
+	</head>
+	<body>
+		<div id="app"></div>
+		<noscript>
+			<img src="/keys.png" alt="Some typewriter keys, disassembled" width="300"/>
+			<h2>
+				NO JAVASCRIPT
+			</h2>
+			<p>
+				<a href="https://github.com/qjack001/Olive">Olive</a>
+				requires Javascript to run. Please enable it to use the app. See:
+				<a href="https://enable-javascript.com">how to turn on Javascript</a>.
+			</p>
+			<style>
+				@font-face
+				{
+					font-family: 'Olivetti';
+					src: url('/font/olivetti.woff2') format('woff2'),
+						url('/font/olivetti.woff') format('woff');
+					font-display: block;
+				}
+				
+				body
+				{
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					text-align: center;
+					min-height: 85vh;
+
+					background: #f9e9d6;
+					color: rgba(0, 0, 0, 0.75);
+					font-family: 'Olivetti', monospace;
+					font-size: 16px;
+					line-height: 1.6;
+					letter-spacing: 0.03em;
+				}
+
+				img
+				{
+					width: 300px;
+					max-width: 100%;
+					margin-bottom: 40px;
+				}
+
+				p, h2
+				{
+					max-width: 500px;
+					margin: 20px auto;
+				}
+
+				a
+				{
+					color: inherit;
+					text-decoration: none;
+					background-image: linear-gradient(#ff1e00, #ff1e00);
+					background-size: 100% 1px;
+					background-repeat: no-repeat;
+					background-position-y: bottom;
+				}
+			</style>
+		</noscript>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>
