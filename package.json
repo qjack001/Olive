@@ -6,6 +6,7 @@
 	"main": "build/main/main/main.js",
 	"scripts": {
 		"dev": "node scripts/dev-server.js",
+		"dev:web": "cd src/renderer && vite dev",
 		"build": "node scripts/build.js && electron-builder",
 		"build:mac": "node scripts/build.js && electron-builder --mac && open ./dist/mac-arm64",
 		"build:web": "cd src/renderer && vite build"

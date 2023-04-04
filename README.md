@@ -32,6 +32,10 @@ and Linux), run:
 npm run build
 ```
 
+The application can also be built and deployed as a webapp. To test the project in
+your browser, run `npm run dev:web`. To build the webapp for production, run:
+`npm run dev:web`. The web-version is currently built and deployed from Netlify; you
+can view it at [olive-typewriter.netlify.app](https://olive-typewriter.netlify.app/).
 
 ### Project structure
 
@@ -57,5 +61,5 @@ Here is a mini-map of the project to help get your barrings:
 - refine color palette
 - refactor and document
 - chores: lint, update deps
-- deploy demo
 - figure out code signing (...auto-updating?)
+- update typing smack sound
