@@ -7,7 +7,8 @@
 	"scripts": {
 		"dev": "node scripts/dev-server.js",
 		"build": "node scripts/build.js && electron-builder",
-		"build:mac": "node scripts/build.js && electron-builder --mac && open ./dist/mac-arm64"
+		"build:mac": "node scripts/build.js && electron-builder --mac && open ./dist/mac-arm64",
+		"build:web": "cd src/renderer && vite build"
 	},
 	"devDependencies": {
 		"@types/uuid": "^9.0.1",
