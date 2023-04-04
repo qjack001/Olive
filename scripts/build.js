@@ -1,43 +1,32 @@
-#!/usr/bin/node
-const {build} = require('vite');
-const {dirname} = require('path');
+const Path = require('path');
+const Chalk = require('chalk');
+const FileSystem = require('fs');
+const Vite = require('vite');
+const compileTs = require('./private/tsc');
 
-/** @type 'production' | 'development' | 'test' */
-const mode = 'production';
+function buildRenderer() {
+    return Vite.build({
+        configFile: Path.join(__dirname, '..', 'vite.config.js'),
+        base: './',
+        mode: 'production'
+    });
+}
 
-const packagesConfigs = [
-  'packages/main/vite.config.js',
-  'packages/preload/vite.config.js',
-  'packages/renderer/vite.config.js',
-];
+function buildMain() {
+    const mainPath = Path.join(__dirname, '..', 'src', 'main');
+    return compileTs(mainPath);
+}
 
+FileSystem.rmSync(Path.join(__dirname, '..', 'build'), {
+    recursive: true,
+    force: true,
+})
 
-/**
- * Run `vite build` for config file
- */
-const buildByConfig = (configFile) => build({configFile, mode});
-(async () => {
-  try {
-    const totalTimeLabel = 'Total bundling time';
-    console.time(totalTimeLabel);
+console.log(Chalk.blueBright('Transpiling renderer & main...'));
 
-    for (const packageConfigPath of packagesConfigs) {
-
-      const consoleGroupName = `${dirname(packageConfigPath)}/`;
-      console.group(consoleGroupName);
-
-      const timeLabel = 'Bundling time';
-      console.time(timeLabel);
-
-      await buildByConfig(packageConfigPath);
-
-      console.timeEnd(timeLabel);
-      console.groupEnd();
-      console.log('\n'); // Just for pretty print
-    }
-    console.timeEnd(totalTimeLabel);
-  } catch (e) {
-    console.error(e);
-    process.exit(1);
-  }
-})();
+Promise.allSettled([
+    buildRenderer(),
+    buildMain(),
+]).then(() => {
+    console.log(Chalk.greenBright('Renderer & main successfully transpiled! (ready to be built with electron-builder)'));
+});
