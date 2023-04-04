@@ -1,9 +1,12 @@
 # Olive
 
-Olive is a digital typewriter app for MacOS (also Windows and Linux, but untested).
-It is not meant to perfectly simulate using a typewriter (the way some skeuomorphic
-typewriter apps do), but rather bring the workflow into the digital age. There is
-no copy-pasting, no editing, and correcting mistakes is tedious. That's the fun part.
+[Olive](https://olive-typewriter.netlify.app/) is a digital typewriter app for MacOS
+(also Windows and Linux, but untested). It is not meant to perfectly simulate using a
+typewriter (the way some skeuomorphic typewriter apps do), but rather bring the workflow
+into the digital age. There is no copy-pasting, no editing, and correcting mistakes is
+tedious. That's the fun part.
+
+Formerly [Typeright](typeright.netlify.app/).
 
 
 ## Local development
