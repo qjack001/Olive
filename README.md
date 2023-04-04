@@ -39,7 +39,7 @@ Here is a mini-map of the project to help get your barrings:
 ├── scripts/              # build scripts
 └── src/
     ├── main/
-    │   ├── main.ts       # the "app" side (menu bar, reading/writting files, etc)
+    │   ├── main.ts       # the "app" side (menu bar, reading/writing files, etc)
     │   └── ...
     └── renderer
         ├── App.vue       # the Vue app rendered (SPA)
@@ -54,4 +54,5 @@ Here is a mini-map of the project to help get your barrings:
 - refine color palette
 - refactor and document
 - chores: lint, update deps
+- deploy demo
 - figure out code signing (...auto-updating?)
