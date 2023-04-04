@@ -36,7 +36,7 @@ export function newWindow(page: string | undefined, props: WindowOptions, option
 
 	window.webContents.on('will-prevent-unload', (event) => {
 		const options = {
-			type: 'question',
+			type: 'warning',
 			buttons: ['Discard', 'Cancel'],
 			message: 'Discard document?',
 			detail: 'Any unsaved changes will be lost.',
