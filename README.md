@@ -58,7 +58,6 @@ Here is a mini-map of the project to help get your barrings:
 ## Todo
 
 - customize font
-- refine color palette
 - refactor and document
 - chores: lint, update deps
 - figure out code signing (...auto-updating?)

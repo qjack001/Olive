@@ -5,29 +5,29 @@ type HSLA = `hsla(${number} ${number}% ${number}% / ${number}%)` | `hsla(${numbe
 type HEX = `#${string}`
 export type CssColor = RGB | RGBA | HSL | HSLA | HEX
 
-const ALL_COLORS = ['white', 'red', 'blue', 'green', 'purple', 'pink', 'brown', 'ash'] as const
+const ALL_COLORS = ['white', 'red', 'blue', 'green', 'lavender', 'pink', 'brown', 'ash'] as const
 type ColorTuple = typeof ALL_COLORS
 export type ColorName = ColorTuple[number]
 
 export const Color: Record<ColorName, CssColor> = {
 	white: '#fffcf6',
-	red: '#cc6b6b',
-	blue: '#9db5de',
-	green: '#9ddebb',
-	purple: '#9f84d0',
+	red: '#cf7b7b',
+	blue: '#b8c8e2',
+	green: '#afe8c9',
+	lavender: '#d0c0eb',
 	pink: '#ffd4f9',
-	brown: '#a98b6a',
+	brown: '#b19678',
 	ash: '#282828'
 }
 
 export const TintColor: Record<ColorName, CssColor> = {
 	white: 'hsla(40 32% 85% / 50%)',
-	red: 'rgb(165 78 78 / 50%)',
-	blue: 'rgb(118 141 181 / 50%)',
-	green: 'rgb(98 183 137 / 50%)',
-	purple: 'rgb(126 100 173 / 50%)',
+	red: 'rgb(173 90 90 / 50%)',
+	blue: 'rgb(141 163 203 / 50%)',
+	green: 'rgb(117 195 153 / 50%)',
+	lavender: 'rgb(170 152 202 / 50%)',
 	pink: 'rgb(206 158 199 / 50%)',
-	brown: 'rgb(144 111 72 / 50%)',
+	brown: 'rgb(151 120 84 / 50%)',
 	ash: 'rgb(15 15 15 / 50%)',
 }
 
