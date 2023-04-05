@@ -10,7 +10,7 @@ type PageData = {
 	isFirstLaunch?: boolean
 }
 
-const FILE_EXTENTION = ".oli"
+const FILE_EXTENSION = ".oli"
 
 function createWindow (pageData: PageData = {filepath: undefined}) {
 	const page: Record<string, BrowserWindow> = {}
@@ -77,8 +77,8 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 						.then((result) => {
 							if (result.canceled || result.filePaths[0] === undefined) return
 							
-							const filepath = (result.filePaths[0].endsWith(FILE_EXTENTION))
-								? result.filePaths[0].slice(0, -FILE_EXTENTION.length)
+							const filepath = (result.filePaths[0].endsWith(FILE_EXTENSION))
+								? result.filePaths[0].slice(0, -FILE_EXTENSION.length)
 								: result.filePaths[0]
 
 							createWindow({filepath})
@@ -276,7 +276,7 @@ function getColorOptions(window: BrowserWindow): Electron.MenuItemConstructorOpt
 }
 
 function saveFile(window: BrowserWindow, windowData: PageData, filePath: string, data: string): void {
-	fs.writeFile(filePath + FILE_EXTENTION, data, (error) => {
+	fs.writeFile(filePath + FILE_EXTENSION, data, (error) => {
 
 		if (error) {
 			return dialog.showErrorBox('Unable to save document', 
@@ -290,7 +290,7 @@ function saveFile(window: BrowserWindow, windowData: PageData, filePath: string,
 }
 
 function openFile(window: BrowserWindow, filepath: string): void {
-	fs.readFile(filepath + FILE_EXTENTION, {encoding: 'utf-8'}, (error, data) => {
+	fs.readFile(filepath + FILE_EXTENSION, {encoding: 'utf-8'}, (error, data) => {
 		if (error) {
 			return dialog.showErrorBox('Unable to save document', 
 				'An unexpected error occurred and your document was not saved. ' +
