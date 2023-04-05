@@ -6,7 +6,7 @@ typewriter (the way some skeuomorphic typewriter apps do), but rather bring the 
 into the digital age. There is no copy-pasting, no editing, and correcting mistakes is
 tedious. That's the fun part.
 
-Formerly [Typeright](typeright.netlify.app/).
+Formerly _"[Typeright](typeright.netlify.app/)"_.
 
 
 ## Local development
@@ -36,6 +36,7 @@ The application can also be built and deployed as a webapp. To test the project 
 your browser, run `npm run dev:web`. To build the webapp for production, run:
 `npm run dev:web`. The web-version is currently built and deployed from Netlify; you
 can view it at [olive-typewriter.netlify.app](https://olive-typewriter.netlify.app/).
+
 
 ### Project structure
 
