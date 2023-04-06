@@ -176,7 +176,7 @@
 
 		characters.list.push({
 			id: uuid(),
-			value: '▋',
+			value: '▆', // replace with ▋ for larger strike-out character
 			posX: deletePosition.x,
 			posY: position.y,
 			erase: false,
