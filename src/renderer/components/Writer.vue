@@ -23,7 +23,7 @@
 	import { reactive, onMounted } from 'vue'
 	import { v4 as uuid } from 'uuid'
 	import { useSound } from '@vueuse/sound'
-	import clickSfx from '/sounds/click.mp3'
+	import smackSfx from '/sounds/smack.mp3'
 	import chunkSfx from '/sounds/chunk.mp3'
 	import dingSfx from '/sounds/ding.mp3'
 	import returnSfx from '/sounds/return.mp3'
@@ -50,7 +50,7 @@
 	const deletePosition = reactive({ x: 0 })
 
 	// sound effects
-	const { play: typeSound } = useSound(clickSfx, { volume: 0.1, interrupt: true })
+	const { play: typeSound } = useSound(smackSfx, { volume: 0.1, interrupt: true })
 	const { play: moveSound } = useSound(chunkSfx, { volume: 0.02, interrupt: true })
 	const { play: dingSound } = useSound(dingSfx, { volume: 4, interrupt: false })
 	const { play: returnSound } = useSound(returnSfx, { volume: 1, interrupt: false, playbackRate: 1.5 })
@@ -60,7 +60,7 @@
 	{
 		if (e.metaKey)
 		{
-			// guard agaisnt key commands
+			// guard against key commands
 			return
 		}
 
