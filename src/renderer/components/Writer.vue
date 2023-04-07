@@ -16,6 +16,8 @@
 		>
 			{{ char.value }}
 		</span>
+		<div id="horizontal" class="page-marker" :style="{ transform: 'translateY('+position.y+'px)' }"/>
+		<div id="vertical" class="page-marker" :style="{ top: getVerticalPageMarkerPosition()+'px' }"/>
 	</p>
 </template>
 
@@ -184,6 +186,13 @@
 		})
 	}
 
+	function getVerticalPageMarkerPosition(): number {
+		const linesPerPage = 40.4 // correct for slight drift (only accurate to ~5 pages)
+		const pageHeight = (heightUnit * linesPerPage)
+		const currentPage = Math.round(position.y / pageHeight) || 1 // minimum: 1
+		return heightUnit * Math.round(linesPerPage * currentPage) // round to nearest line
+	}
+
 	function refocus(): void
 	{
 		document.getElementById('writer')?.focus()
@@ -271,12 +280,44 @@
 		opacity: 0;
 	}
 
+	.page-marker
+	{
+		background: currentColor;
+		opacity: 0.3;
+		position: absolute;
+		pointer-events: none;
+	}
+
+	#horizontal.page-marker
+	{
+		width: 1.5px;
+		height: 9px;
+
+		right: -90px;
+		top: 14px;
+	}
+
+	#vertical.page-marker
+	{
+		width: 9px;
+		height: 1.5px;
+
+		left: -16px;
+		transform: translateY(-5px);
+	}
+
 	@media print
 	{
 		p#output, p
 		{
 			margin: 16pt 0px !important;
 			transform: translate(0, 0) !important;
+		}
+
+		#horizontal.page-marker,
+		#vertical.page-marker
+		{
+			display: none;
 		}
 	}
 </style>

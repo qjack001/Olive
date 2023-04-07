@@ -58,12 +58,10 @@ Here is a mini-map of the project to help get your barrings:
 
 ## Todo
 
-- page line
 - user prefs (default color, noises)
 - drawing w/ mouse
 - open oli files as default app
 - custom image for files
-- save paper color to file
 - notifications and demo alert
 - refactor and document
 - chores: lint
