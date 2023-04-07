@@ -5,7 +5,7 @@
 		@blur="refocus"
 	>
 	<p 
-		id="output"
+		:class="{animate}"
 		:style="{ transform: 'translate(-'+position.x+'px, -'+position.y+'px)' }"
 	>
 		<span 
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-	import { reactive, onMounted } from 'vue'
+	import { reactive, onMounted, ref } from 'vue'
 	import { v4 as uuid } from 'uuid'
 	import { useSound } from '@vueuse/sound'
 	import { Character } from '../oli-file'
@@ -43,8 +43,11 @@
 	const deleteKeyPressed = reactive({ value: false })
 	const deletePosition = reactive({ x: 0 })
 
+	//
+	const animate = ref(false)
+
 	// sound effects
-	const { play: typeSound } = useSound(smackSfx, { volume: 0.1, interrupt: true })
+	const { play: typeSound } = useSound(smackSfx, { volume: 0.05, interrupt: true })
 	const { play: moveSound } = useSound(chunkSfx, { volume: 0.02, interrupt: true })
 	const { play: dingSound } = useSound(dingSfx, { volume: 4, interrupt: false })
 	const { play: returnSound } = useSound(returnSfx, { volume: 1, interrupt: false, playbackRate: 1.5 })
@@ -97,10 +100,9 @@
 
 		// animate cartridge return
 		setTimeout(() => {
-			let el = document.getElementById('output')
-			el?.classList.add('animate')
+			animate.value = true
 			movePositionX(-maxWidth)
-			setTimeout(() => { el?.classList.remove('animate') }, 400)
+			setTimeout(() => { animate.value = false }, 400)
 		}, 20)
 	}
 
@@ -112,20 +114,20 @@
 			return
 		}
 
-		characters.list.push({
-			id: uuid(),
-			value: letter,
-			posX: position.x,
-			posY: position.y,
-			erase: deleteKeyPressed.value,
-		})
-
 		if (letter != ' ') {
-			// only visible letters strike the page
 			typeSound()
+			characters.list.push({
+				id: uuid(),
+				value: letter,
+				posX: position.x,
+				posY: position.y,
+				erase: deleteKeyPressed.value,
+			})
+
+			// newly added text; alert when leaving page until saved
+			window.onbeforeunload = () => true
 		}
 
-		window.onbeforeunload = () => true // alert when leaving page until saved
 		movePositionX(1)
 	}
 
@@ -202,7 +204,7 @@
 			deleteKeyPressed.value = modeValue
 		})
 
-		refocus() // focus writer immediatly on load
+		refocus() // focus writer immediately on load
 	})
 </script>
 
