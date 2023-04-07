@@ -145,6 +145,7 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 				{
 					label: 'Erase Mode',
 					accelerator: 'CommandOrControl+Backspace',
+					id: 'erase-mode',
 					type: 'checkbox',
 					click: (eraseMode) => page.MAIN.webContents.send('erase_mode', eraseMode.checked),
 				},
@@ -209,6 +210,14 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 		const colorOption = menu.getMenuItemById(color)
 		if (colorOption) {
 			colorOption.checked = true
+		}
+	})
+
+	when('erase_mode', page.MAIN, (_value: boolean) => {
+		const eraseModeOption = menu.getMenuItemById('erase-mode')
+		if (eraseModeOption) {
+			eraseModeOption.checked = !eraseModeOption.checked
+			page.MAIN.webContents.send('erase_mode', eraseModeOption.checked)
 		}
 	})
 

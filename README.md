@@ -58,14 +58,13 @@ Here is a mini-map of the project to help get your barrings:
 
 ## Todo
 
-- customize font
 - page line
 - user prefs (default color, noises)
 - drawing w/ mouse
 - open oli files as default app
 - custom image for files
 - save paper color to file
-- ink color (blue, red?)
+- notifications and demo alert
 - refactor and document
-- chores: lint, update deps
+- chores: lint
 - figure out code signing (...auto-updating?)

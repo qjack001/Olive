@@ -58,9 +58,14 @@
 
 	function pressKey(e: KeyboardEvent): void
 	{
+		// guard against key commands
 		if (e.metaKey)
 		{
-			// guard against key commands
+			if (e.key == 'Backspace') {
+				// the 'true' value is ignored, just treated as a toggle
+				window.menu?.send('erase_mode', true)
+			}
+
 			return
 		}
 
