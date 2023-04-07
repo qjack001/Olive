@@ -28,7 +28,9 @@
 		setRootCssVariables(Color[DEFAULT_COLOR], TintColor[DEFAULT_COLOR])
 		window.menu?.send('set_color', DEFAULT_COLOR)
 		window.menu?.receive('set_color', (color: ColorName) => {
-			setRootCssVariables(Color[color], TintColor[color])
+			if (color) {
+				setRootCssVariables(Color[color], TintColor[color])
+			}
 		})
 	})
 

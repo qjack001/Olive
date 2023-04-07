@@ -1,6 +1,7 @@
-import { app, BrowserWindow, session, dialog, MenuItemConstructorOptions, shell } from 'electron'
+import { app, BrowserWindow, session, dialog, MenuItemConstructorOptions, shell, MenuItem } from 'electron'
 import isFirstLaunch from 'electron-first-run'
-import { Color } from '../renderer/paper-color'
+import { Color, ColorName } from '../renderer/paper-color'
+import { Character, OliFile, OliFileVersion1, FILE_EXTENSION } from '../renderer/oli-file'
 import { newWindow, setMenu, when, whenChild } from './window'
 import * as fs from 'fs'
 
@@ -9,8 +10,6 @@ type PageData = {
 	saveWithoutDialog?: boolean
 	isFirstLaunch?: boolean
 }
-
-const FILE_EXTENSION = ".oli"
 
 function createWindow (pageData: PageData = {filepath: undefined}) {
 	const page: Record<string, BrowserWindow> = {}
@@ -139,6 +138,7 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 				},
 				{ 
 					label: 'Paper Color',
+					id: 'paper-color',
 					type: 'submenu',
 					submenu: getColorOptions(page.MAIN),
 				},
@@ -227,10 +227,16 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 		}
 	})
 
-	when('file_content', page.MAIN, (data: string) => {
+	when('file_content', page.MAIN, (content: Character[]) => {
+
+		const file: OliFileVersion1 = {
+			version: 1.0,
+			content: content,
+			paperColor: getSelectedColorOption(menu.getMenuItemById('paper-color')),
+		}
 		
 		if (pageData.saveWithoutDialog && pageData.filepath) {
-			saveFile(page.MAIN, pageData, pageData.filepath, data)
+			saveFile(page.MAIN, pageData, pageData.filepath, file)
 			pageData.saveWithoutDialog = false // reset
 			return
 		}
@@ -242,7 +248,7 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 		})
 		.then((result: Electron.SaveDialogReturnValue) => {
 			if (result.canceled || result.filePath === undefined) return
-			saveFile(page.MAIN, pageData, result.filePath, data)
+			saveFile(page.MAIN, pageData, result.filePath, file)
 		})
 	})
 }
@@ -284,8 +290,20 @@ function getColorOptions(window: BrowserWindow): Electron.MenuItemConstructorOpt
 	})
 }
 
-function saveFile(window: BrowserWindow, windowData: PageData, filePath: string, data: string): void {
-	fs.writeFile(filePath + FILE_EXTENSION, data, (error) => {
+function getSelectedColorOption(paperColorSubmenu: MenuItem | null): ColorName | undefined {
+	if (paperColorSubmenu == null || paperColorSubmenu.submenu == undefined) {
+		return undefined
+	}
+
+	for (const colorOption of paperColorSubmenu.submenu.items) {
+		if (colorOption.checked) {
+			return colorOption.id as ColorName
+		}
+	}
+}
+
+function saveFile(window: BrowserWindow, windowData: PageData, filePath: string, file: OliFile): void {
+	fs.writeFile(filePath + FILE_EXTENSION, JSON.stringify(file), (error) => {
 
 		if (error) {
 			return dialog.showErrorBox('Unable to save document', 
@@ -300,14 +318,19 @@ function saveFile(window: BrowserWindow, windowData: PageData, filePath: string,
 
 function openFile(window: BrowserWindow, filepath: string): void {
 	fs.readFile(filepath + FILE_EXTENSION, {encoding: 'utf-8'}, (error, data) => {
+		
+		// we can assume the file is an Oli file, but not necessarily any single version of an Oli file
+		const file: OliFile = JSON.parse(data)
+
 		if (error) {
-			return dialog.showErrorBox('Unable to save document', 
-				'An unexpected error occurred and your document was not saved. ' +
+			return dialog.showErrorBox('Unable to open document', 
+				'An unexpected error occurred trying to open that file. ' +
 				'Please try again, and if the issue persists, file a bug report.')
 		}
 
 		window.on('ready-to-show', () => {
-			window.webContents.send('file_content', data)
+			window.webContents.send('file_content', file.content)
+			window.webContents.send('set_color', file.paperColor)
 		})
 	})
 }

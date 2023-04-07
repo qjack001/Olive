@@ -23,18 +23,12 @@
 	import { reactive, onMounted } from 'vue'
 	import { v4 as uuid } from 'uuid'
 	import { useSound } from '@vueuse/sound'
+	import { Character } from '../oli-file'
 	import smackSfx from '/sounds/smack.mp3'
 	import chunkSfx from '/sounds/chunk.mp3'
 	import dingSfx from '/sounds/ding.mp3'
 	import returnSfx from '/sounds/return.mp3'
 
-	type character = {
-		posX: number,
-		posY: number,
-		id: string,
-		value: string,
-		erase: boolean,
-	}
 
 	// constants for defining units of movement, cursor
 	const widthUnit = 9 // font-size: 16px
@@ -43,7 +37,7 @@
 
 	// reactive vars: current position and list of all letter objects
 	const position = reactive({ x: 0, y: 0 })
-	const characters = reactive({ list: [] as character[] })
+	const characters = reactive({ list: [] as Character[] })
 	
 	// keep track of whether or not the backspace/delete key is held down
 	const deleteKeyPressed = reactive({ value: false })
@@ -195,12 +189,13 @@
 
 	onMounted(() => {
 
-		window.menu?.receive('file_content', (data: string) => {
-			characters.list = JSON.parse(data)
+		window.menu?.receive('file_content', (content: Character[]) => {
+			characters.list = content
 		})
 		window.menu?.receive('save_request', () => {
-			window.menu?.send('file_content', JSON.stringify(characters.list))
-			window.onbeforeunload = () => undefined // allow closing without alert
+			window.menu?.send('file_content', JSON.parse(JSON.stringify(characters.list)))
+			// allow closing without alert now that content is saved
+			window.onbeforeunload = () => undefined
 		})
 
 		window.menu?.receive('erase_mode', (modeValue: boolean) => {
