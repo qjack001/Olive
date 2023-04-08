@@ -254,6 +254,7 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 }
 
 app.whenReady().then(() => {
+	
 	createWindow({isFirstLaunch: isFirstLaunch()})
 
 	session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
@@ -264,12 +265,26 @@ app.whenReady().then(() => {
 			}
 		})
 	})
+})
 
-	app.on('activate', () => {
+app.on('activate', () => {
+	app.whenReady().then(() => {
 		// create new window if none currently open
 		if (BrowserWindow.getAllWindows().length === 0) {
 			createWindow()
 		}
+	})
+})
+
+app.on('open-file', (event, path) => {
+    event.preventDefault()
+	app.whenReady().then(() => {
+		// remove extension, if oli file (it is forced back on the filepath later)
+		const filepath = (path.endsWith(FILE_EXTENSION))
+			? path.slice(0, -FILE_EXTENSION.length)
+			: path
+
+		createWindow({filepath})
 	})
 })
 

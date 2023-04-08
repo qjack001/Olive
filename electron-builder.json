@@ -33,5 +33,13 @@
 		"!scripts",
 		"!build/renderer",
 		"!dist"
+	],
+	"fileAssociations": [
+		{
+			"ext": "oli",
+			"name": "Olive Document",
+			"role": "Editor",
+			"rank": "Owner"
+		}
 	]
 }
