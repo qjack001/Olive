@@ -11,6 +11,8 @@ type PageData = {
 	isFirstLaunch?: boolean
 }
 
+let openingFile = false // flag used to differentiate `ready` events from `open-file` events
+
 function createWindow (pageData: PageData = {filepath: undefined}) {
 	const page: Record<string, BrowserWindow> = {}
 
@@ -255,7 +257,9 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 
 app.whenReady().then(() => {
 	
-	createWindow({isFirstLaunch: isFirstLaunch()})
+	if (!openingFile) {
+		createWindow({isFirstLaunch: isFirstLaunch()})
+	}
 
 	session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
 		callback({
@@ -278,6 +282,7 @@ app.on('activate', () => {
 
 app.on('open-file', (event, path) => {
     event.preventDefault()
+	openingFile = true // blocks standard whenReady task of creating new blank window
 	app.whenReady().then(() => {
 		// remove extension, if oli file (it is forced back on the filepath later)
 		const filepath = (path.endsWith(FILE_EXTENSION))
@@ -285,6 +290,7 @@ app.on('open-file', (event, path) => {
 			: path
 
 		createWindow({filepath})
+		openingFile = false // reset
 	})
 })
 
