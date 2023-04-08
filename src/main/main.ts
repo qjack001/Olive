@@ -144,12 +144,18 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 					type: 'submenu',
 					submenu: getColorOptions(page.MAIN),
 				},
+				{ type: 'separator' },
 				{
 					label: 'Erase Mode',
 					accelerator: 'CommandOrControl+Backspace',
 					id: 'erase-mode',
 					type: 'checkbox',
 					click: (eraseMode) => page.MAIN.webContents.send('erase_mode', eraseMode.checked),
+				},
+				{
+					label: 'Disappearing Ink',
+					type: 'checkbox',
+					click: (disappearingMode) => page.MAIN.webContents.send('disappearing_mode', disappearingMode.checked),
 				},
 				{ type: 'separator' },
 				{ role: 'close' },

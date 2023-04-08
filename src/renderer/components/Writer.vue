@@ -5,7 +5,7 @@
 		@blur="refocus"
 	>
 	<p 
-		:class="{animate}"
+		:class="{ animate, disappearing }"
 		:style="{ transform: 'translate(-'+position.x+'px, -'+position.y+'px)' }"
 	>
 		<span 
@@ -47,6 +47,7 @@
 
 	//
 	const animate = ref(false)
+	const disappearing = ref(false)
 
 	// sound effects
 	const { play: typeSound } = useSound(smackSfx, { volume: 0.05, interrupt: true })
@@ -213,6 +214,10 @@
 			deleteKeyPressed.value = modeValue
 		})
 
+		window.menu?.receive('disappearing_mode', (modeValue: boolean) => {
+			disappearing.value = modeValue
+		})
+
 		refocus() // focus writer immediately on load
 	})
 </script>
@@ -250,6 +255,17 @@
 		text-shadow: 0 0 1px var(--background);
 		-webkit-print-color-adjust: exact;
 		print-color-adjust: exact;
+	}
+
+	.disappearing .letter
+	{
+		animation: fade-away 5s ease-in;
+		animation-fill-mode: forwards;
+	}
+
+	@keyframes fade-away
+	{
+		to { opacity: 0 }
 	}
 
 	input
@@ -318,6 +334,12 @@
 		#vertical.page-marker
 		{
 			display: none;
+		}
+
+		.disappearing .letter
+		{
+			opacity: 1;
+			animation: none;
 		}
 	}
 </style>
