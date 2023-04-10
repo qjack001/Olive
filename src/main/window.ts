@@ -9,9 +9,17 @@ interface WindowOptions {
     maxWidth?: number
     maxHeight?: number
     parent?: BrowserWindow
+	singleton?: boolean
 }
 
+const singletonPages: Record<string, BrowserWindow> = {}
+
 export function newWindow(page: string | undefined, props: WindowOptions, optionOverrides?: BrowserWindowConstructorOptions): BrowserWindow {
+	if (props.singleton && page && singletonPages[page] && !singletonPages[page].isDestroyed()) {
+		singletonPages[page].focus()
+		return singletonPages[page]
+	}
+	
 	const window = new BrowserWindow({
 		...props,
 		titleBarStyle: 'hiddenInset',
@@ -24,6 +32,10 @@ export function newWindow(page: string | undefined, props: WindowOptions, option
 		},
 		...optionOverrides,
 	})
+
+	if (props.singleton && page) {
+		singletonPages[page] = window
+	}
 
 	window.on('ready-to-show', () => {
 		window.webContents.send('os', process.platform)
