@@ -1,5 +1,6 @@
 <template>
 	<template v-if="page == 'help'">
+		<window-drag-region closePage="HELP"/>
 		<help/>
 	</template>
 	<template v-else>

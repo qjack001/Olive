@@ -1,11 +1,4 @@
 <template>
-	<window-drag-region>
-		<button :onclick="closeModel">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-				<path d="M18 6 6 18M6 6l12 12"/>
-			</svg>
-		</button>
-	</window-drag-region>
 	<section class="help-document">
 		<h1>
 			How to use
@@ -56,62 +49,15 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	import WindowDragRegion from './WindowDragRegion.vue'
 
 	const isMac = ref(false)
 	window.menu?.receive('os', (os: string) => isMac.value = (os == 'darwin'))
-
-	function closeModel() {
-		window.menu?.send('close_page', 'HELP')
-	}
 </script>
 
 <style scoped>
 	.help-document
 	{
 		margin: 40px;
-	}
-
-	button
-	{
-		position: relative;
-		display: flex;
-		height: 100%;
-		aspect-ratio: 1 / 1;
-		align-items: center;
-		justify-content: center;
-
-		border: none;
-		outline: none;
-		box-shadow: none;
-		background: transparent;
-		cursor: pointer;
-	}
-
-	button::after
-	{
-		content: "";
-		position: absolute;
-		top: 5px;
-		left: 5px;
-		right: 5px;
-		bottom: 5px;
-		background: black;
-		border-radius: 8px;
-		opacity: 0;
-	}
-
-	button:hover::after,
-	button:focus::after
-	{
-		opacity: 0.1;
-	}
-
-	button svg
-	{
-		width: 24px;
-		stroke: currentColor;
-		stroke-width: 1.5;
 	}
 
 	h1
@@ -169,7 +115,6 @@
 
 		max-width: 140px;
 		text-indent: 0;
-
 	}
 
 	ol.erase-cursor-graphic svg
