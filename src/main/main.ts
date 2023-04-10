@@ -20,6 +20,7 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 		width: 1200,
 		height: 800,
 		minWidth: 480,
+		minHeight: 160,
 	})
 
 	if (pageData.filepath) {
@@ -190,7 +191,11 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 							page.HELP.close()
 						}
 						else {
-							page.HELP = newWindow('help', { parent: page.MAIN })
+							page.HELP = newWindow('help', {
+								parent: page.MAIN,
+								minWidth: 800,
+								minHeight: 600,
+							})
 						}
 					}
 				},
