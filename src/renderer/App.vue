@@ -31,13 +31,18 @@
 
 	onMounted(() => {
 		page.value = new URLSearchParams(document.location.search).get('page')
-
 		setRootCssVariables(Color[DEFAULT_COLOR], TintColor[DEFAULT_COLOR])
-		window.menu?.send('set_color', DEFAULT_COLOR)
-		window.menu?.receive('set_color', (color: ColorName) => {
-			if (color) {
-				setRootCssVariables(Color[color], TintColor[color])
-			}
+
+		window.menu?.receive('init_settings', (_settings: any) => {
+			const pageColor = userPreferences.defaultPaperColor ?? DEFAULT_COLOR
+
+			setRootCssVariables(Color[pageColor], TintColor[pageColor])
+			window.menu?.send('set_color', pageColor)
+			window.menu?.receive('set_color', (color: ColorName) => {
+				if (color) {
+					setRootCssVariables(Color[color], TintColor[color])
+				}
+			})
 		})
 	})
 
