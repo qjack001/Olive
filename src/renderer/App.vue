@@ -12,8 +12,14 @@
 		<writer/>
 		<cursor/>
 		<panel/>
+		<notification
+			v-if="isBrowser()"
+			title="Demo version"
+			message="Download the full app for more features!"
+			href="https://github.com/qjack001/Olive"
+			isDownload
+		/>
 	</template>
-	
 </template>
 
 <script setup lang="ts">
@@ -24,6 +30,7 @@
 	import Writer from './components/Writer.vue'
 	import Cursor from './components/Cursor.vue'
 	import Panel from './components/Panel.vue'
+	import Notification from './components/Notification.vue'
 	import Help from './components/Help.vue'
 	import Settings from './components/Settings.vue'
 
@@ -50,6 +57,10 @@
 	{
 		document.documentElement.style.setProperty('--background', backgroundColor)
 		document.documentElement.style.setProperty('--tint', tintColor)
+	}
+
+	function isBrowser(): boolean {
+		return (window.menu === undefined)
 	}
 </script>
 
