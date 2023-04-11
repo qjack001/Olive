@@ -8,7 +8,7 @@
 			<p>
 				Type until you reach the end of the page; the bell will ding to
 				warn you when you're close. Press <b>Enter</b> to advance to the
-				next line. Write ontop of text to bold letters, add an underline,
+				next line. Write on top of text to bold letters, add an underline,
 				or create novel letter combinations.
 			</p>
 			<h2>Move</h2>
