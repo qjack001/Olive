@@ -16,8 +16,10 @@
 		>
 			{{ char.value }}
 		</span>
-		<div id="horizontal" class="page-marker" :style="{ transform: 'translateY('+position.y+'px)' }"/>
-		<div id="vertical" class="page-marker" :style="{ top: getVerticalPageMarkerPosition()+'px' }"/>
+		<template v-if="pageMarkers">
+			<div id="horizontal" class="page-marker" :style="{ transform: 'translateY('+position.y+'px)' }"/>
+			<div id="vertical" class="page-marker" :style="{ top: getVerticalPageMarkerPosition()+'px' }"/>
+		</template>
 	</p>
 </template>
 
@@ -50,9 +52,11 @@
 	const animate = ref(false)
 	const disappearing = ref(false)
 
+	const pageMarkers = ref(defaultPreferences.pageMarkers)
 	const bellSound = ref(userPreferences.bellSound)
 	const otherSounds = ref(userPreferences.otherSounds)
 	window.menu?.receive('settings', (settings: UserPreferences) => {
+		pageMarkers.value = settings.pageMarkers ?? defaultPreferences.pageMarkers
 		bellSound.value = settings.bellSound ?? defaultPreferences.bellSound
 		otherSounds.value = settings.otherSounds ?? defaultPreferences.otherSounds
 	})
