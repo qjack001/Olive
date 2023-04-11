@@ -59,7 +59,6 @@ Here is a mini-map of the project to help get your barrings:
 ## Todo
 
 - drawing w/ mouse
-- notifications and demo alert
 - download website
 - refactor and document
 - chores: lint

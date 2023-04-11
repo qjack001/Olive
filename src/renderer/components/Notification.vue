@@ -167,4 +167,12 @@
 		from { transform: translateX(200%) }
 		to { transform: translateX(0) }
 	}
+
+	@media print
+	{
+		.notification
+		{
+			display: none;
+		}
+	}
 </style>
