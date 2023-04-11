@@ -1,5 +1,6 @@
 import { app, BrowserWindow, BrowserWindowConstructorOptions, dialog, ipcMain, IpcMainEvent, Menu, MenuItemConstructorOptions } from 'electron'
 import { join } from 'path'
+import Store from 'electron-store'
 
 interface WindowOptions {
     width?: number
@@ -37,8 +38,21 @@ export function newWindow(page: string | undefined, props: WindowOptions, option
 		singletonPages[page] = window
 	}
 
+	const userPreferences = new Store()
+
+	when('settings', window, (updatedPreferences) => {
+		userPreferences.store = updatedPreferences
+		BrowserWindow.getAllWindows().map((window) => {
+			if (!window.isDestroyed()) {
+				window.webContents.send('settings', userPreferences.store)
+			}
+		})
+	})
+
 	window.on('ready-to-show', () => {
 		window.webContents.send('os', process.platform)
+		window.webContents.send('init_settings', userPreferences.store)
+		window.webContents.send('settings', userPreferences.store)
 
 		// add additional delay to let rendering finish
 		setTimeout(() => {
