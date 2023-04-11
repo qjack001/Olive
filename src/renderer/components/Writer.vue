@@ -24,8 +24,9 @@
 <script setup lang="ts">
 	import { reactive, onMounted, ref } from 'vue'
 	import { v4 as uuid } from 'uuid'
-	import { useSound } from '@vueuse/sound'
+	import { defaultPreferences, UserPreferences, userPreferences } from '../preferences'
 	import { Character } from '../oli-file'
+	import { useSound } from '@vueuse/sound'
 	import smackSfx from '/sounds/smack.mp3'
 	import chunkSfx from '/sounds/chunk.mp3'
 	import dingSfx from '/sounds/ding.mp3'
@@ -48,6 +49,13 @@
 	//
 	const animate = ref(false)
 	const disappearing = ref(false)
+
+	const bellSound = ref(userPreferences.bellSound)
+	const otherSounds = ref(userPreferences.otherSounds)
+	window.menu?.receive('settings', (settings: UserPreferences) => {
+		bellSound.value = settings.bellSound ?? defaultPreferences.bellSound
+		otherSounds.value = settings.otherSounds ?? defaultPreferences.otherSounds
+	})
 
 	// sound effects
 	const { play: typeSound } = useSound(smackSfx, { volume: 0.05, interrupt: true })
@@ -93,9 +101,9 @@
 
 	function cartridgeReturn(): void
 	{
-		if (position.x > (2 * widthUnit))
+		// only make return noise when more than 2 characters in
+		if (otherSounds.value && position.x > (2 * widthUnit))
 		{
-			// only make return noise when more than 2 characters in
 			returnSound()
 		}
 
@@ -118,7 +126,10 @@
 		}
 
 		if (letter != ' ') {
-			typeSound()
+			if (otherSounds.value) {
+				typeSound()
+			}
+			
 			characters.list.push({
 				id: uuid(),
 				value: letter,
@@ -136,24 +147,33 @@
 
 	function movePositionX(amount: number): void
 	{
-		// add slight variation to each ka-chunk
-		moveSound({ playbackRate: (Math.random() * 0.1) + 0.9 })
 		position.x += widthUnit * amount
 
 		if (position.x > maxWidth - widthUnit)
 		{
 			position.x = maxWidth - widthUnit
+			deletePosition.x = position.x
+			return
 		}
 		else if (position.x < 0)
 		{
 			position.x = 0
+			deletePosition.x = position.x
+			return
+		}
+
+		if (otherSounds.value) {
+			// add slight variation to each ka-chunk
+			moveSound({ playbackRate: (Math.random() * 0.1) + 0.9 })
 		}
 
 		// when nearing the end, ding the alarm
 		if (position.x > maxWidth - (5 * widthUnit))
 		{
-			// add slight variation to each ding
-			dingSound({ playbackRate: (Math.random() * 0.02) + 0.98 })
+			if (bellSound.value) {
+				// add slight variation to each ding
+				dingSound({ playbackRate: (Math.random() * 0.02) + 0.98 })
+			}
 		}
 
 		deletePosition.x = position.x
@@ -161,12 +181,16 @@
 
 	function movePositionY(amount: number): void
 	{
-		moveSound()
 		position.y += heightUnit * amount
 
 		if (position.y < 0)
 		{
 			position.y = 0
+			return
+		}
+
+		if (otherSounds.value) {
+			moveSound()
 		}
 	}
 
