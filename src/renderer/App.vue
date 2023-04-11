@@ -3,6 +3,10 @@
 		<window-drag-region closePage="HELP"/>
 		<help/>
 	</template>
+	<template v-else-if="page == 'settings'">
+		<window-drag-region/>
+		<settings/>
+	</template>
 	<template v-else>
 		<window-drag-region/>
 		<writer/>
@@ -15,11 +19,13 @@
 <script setup lang="ts">
 	import { onMounted, ref } from 'vue'
 	import { Color, ColorName, TintColor, DEFAULT_COLOR, CssColor } from './paper-color'
+	import { userPreferences } from './preferences'
 	import WindowDragRegion from './components/WindowDragRegion.vue'
 	import Writer from './components/Writer.vue'
 	import Cursor from './components/Cursor.vue'
 	import Panel from './components/Panel.vue'
 	import Help from './components/Help.vue'
+	import Settings from './components/Settings.vue'
 
 	const page = ref<string | null>(null)
 

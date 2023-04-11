@@ -35,6 +35,18 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 			[
 				{ role: 'about' },
 				{ type: 'separator' },
+				{
+					label: 'Preferences',
+					accelerator: 'CommandOrControl+,',
+					click: () => newWindow('settings', {
+						width: 620,
+						height: 440,
+						minWidth: 480,
+						minHeight: 440,
+						singleton: true,
+					})
+				},
+				{ type: 'separator' },
 				{ role: 'services' },
 				{ type: 'separator' },
 				{ role: 'hide' },

@@ -58,7 +58,6 @@ Here is a mini-map of the project to help get your barrings:
 
 ## Todo
 
-- user prefs (default color, noises, page markers)
 - drawing w/ mouse
 - notifications and demo alert
 - refactor and document

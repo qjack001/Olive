@@ -5,7 +5,8 @@ type HSLA = `hsla(${number} ${number}% ${number}% / ${number}%)` | `hsla(${numbe
 type HEX = `#${string}`
 export type CssColor = RGB | RGBA | HSL | HSLA | HEX
 
-const ALL_COLORS = ['white', 'red', 'blue', 'green', 'lavender', 'pink', 'brown', 'ash'] as const
+export const ALL_COLORS = ['white', 'red', 'blue', 'green', 'lavender', 'pink', 'brown', 'ash'] as const
+
 type ColorTuple = typeof ALL_COLORS
 export type ColorName = ColorTuple[number]
 
