@@ -23,6 +23,7 @@
 	},
 	"dependencies": {
 		"@vueuse/sound": "^2.0.1",
+		"ef-infinite-canvas": "^0.6.1",
 		"electron-first-run": "^3.0.0",
 		"electron-store": "^8.1.0",
 		"uuid": "^9.0.0",
