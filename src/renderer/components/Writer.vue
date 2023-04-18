@@ -20,19 +20,21 @@
 			<div id="horizontal" class="page-marker" :style="{ transform: 'translateY('+position.y+'px)' }"/>
 			<div id="vertical" class="page-marker" :style="{ top: getVerticalPageMarkerPosition()+'px' }"/>
 		</template>
+		<drawing-canvas v-model:penPoints="penPoints.list" ref="drawingCanvas"/>
 	</p>
 </template>
 
 <script setup lang="ts">
-	import { reactive, onMounted, ref } from 'vue'
+	import { reactive, onMounted, ref, watch } from 'vue'
 	import { v4 as uuid } from 'uuid'
 	import { defaultPreferences, UserPreferences, userPreferences } from '../preferences'
-	import { Character } from '../oli-file'
+	import { Character, OliFile, Point } from '../oli-file'
 	import { useSound } from '@vueuse/sound'
 	import smackSfx from '/sounds/smack.mp3'
 	import chunkSfx from '/sounds/chunk.mp3'
 	import dingSfx from '/sounds/ding.mp3'
 	import returnSfx from '/sounds/return.mp3'
+	import DrawingCanvas from './DrawingCanvas.vue'
 
 
 	// constants for defining units of movement, cursor
@@ -43,6 +45,10 @@
 	// reactive vars: current position and list of all letter objects
 	const position = reactive({ x: 0, y: 0 })
 	const characters = reactive({ list: [] as Character[] })
+
+	const drawingCanvas = ref()
+	const penPoints = reactive({ list: [] as Point[] })
+
 	
 	// keep track of whether or not the backspace/delete key is held down
 	const deleteKeyPressed = reactive({ value: false })
@@ -257,6 +263,9 @@
 		width: 672px;
 		/* "start position" of cursor */
 		margin: 50vh 0 0 calc(50vw - 7px);
+		pointer-events: none;
+
+		mix-blend-mode: multiply;
 	}
 
 	p.animate
@@ -317,6 +326,7 @@
 		border-radius: 0;
 		color: transparent;
 		user-select: none;
+		pointer-events: none;
 	}
 
 	input:focus, input:focus-within
