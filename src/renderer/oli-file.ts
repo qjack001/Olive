@@ -22,12 +22,21 @@ export interface Character
 	erase: boolean
 }
 
+export type Point = null |
+{
+	x: number,
+	y: number,
+	w: number,
+	o: number,
+}
+
 export const FILE_EXTENSION = ".oli"
 
 export interface OliFileVersion1
 {
 	version: 1.0
 	content: Character[]
+	penMarkings?: Point[]
 	paperColor?: ColorName
 }
 

@@ -252,11 +252,12 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 		}
 	})
 
-	when('file_content', page.MAIN, (content: Character[]) => {
+	when('file_content', page.MAIN, (fileFromRenderer: Partial<OliFile>) => {
 
 		const file: OliFileVersion1 = {
 			version: 1.0,
-			content: content,
+			content: fileFromRenderer.content ?? [],
+			penMarkings: fileFromRenderer.penMarkings,
 			paperColor: getSelectedColorOption(menu.getMenuItemById('paper-color')),
 		}
 		
@@ -373,7 +374,7 @@ function openFile(window: BrowserWindow, filepath: string): void {
 		}
 
 		window.on('ready-to-show', () => {
-			window.webContents.send('file_content', file.content)
+			window.webContents.send('file_content', file)
 			window.webContents.send('set_color', file.paperColor)
 		})
 	})

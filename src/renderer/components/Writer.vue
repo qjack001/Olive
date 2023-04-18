@@ -49,6 +49,8 @@
 	const drawingCanvas = ref()
 	const penPoints = reactive({ list: [] as Point[] })
 
+	const initialPenPoints = reactive({ list: [] as Point[] })
+
 	
 	// keep track of whether or not the backspace/delete key is held down
 	const deleteKeyPressed = reactive({ value: false })
@@ -235,11 +237,17 @@
 
 	onMounted(() => {
 
-		window.menu?.receive('file_content', (content: Character[]) => {
-			characters.list = content
+		window.menu?.receive('file_content', (file: OliFile) => {
+			characters.list = file.content
+			initialPenPoints.list = file.penMarkings ?? []
+
+			drawingCanvas.value.drawAll(initialPenPoints.list)
 		})
 		window.menu?.receive('save_request', () => {
-			window.menu?.send('file_content', JSON.parse(JSON.stringify(characters.list)))
+			window.menu?.send('file_content', JSON.parse(JSON.stringify({
+				content: characters.list,
+				penMarkings: [...initialPenPoints.list, ...penPoints.list]
+			})))
 			// allow closing without alert now that content is saved
 			window.onbeforeunload = () => undefined
 		})
@@ -253,6 +261,12 @@
 		})
 
 		refocus() // focus writer immediately on load
+	})
+
+	watch(position, () => drawingCanvas.value.setOffset(position.x, position.y))
+	watch(penPoints, () => {
+		// newly added pen scribbles; alert when leaving page until saved
+		window.onbeforeunload = () => true
 	})
 </script>
 

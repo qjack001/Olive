@@ -58,8 +58,8 @@ Here is a mini-map of the project to help get your barrings:
 
 ## Todo
 
-- drawing w/ mouse
 - download website
 - refactor and document
 - chores: lint
+- remove dependencies
 - figure out code signing (...auto-updating?)
