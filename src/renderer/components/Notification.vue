@@ -121,6 +121,7 @@
 		stroke: currentColor;
 		stroke-width: 1.5;
 		opacity: 0.8;
+		width: 100%;
 	}
 
 	.notification h3
@@ -140,7 +141,6 @@
 		font-size: 0.75rem;
 		letter-spacing: 0.08em;
 		margin: 0;
-		/* max-width: 200px; */
 		opacity: 0.7;
 	}
 
@@ -159,6 +159,7 @@
 		stroke: currentColor;
 		stroke-width: 1px;
 		max-width: 2rem;
+		width: 100%;
 		opacity: 0.8;
 	}
 
