@@ -223,7 +223,8 @@
 		})
 	}
 
-	function getVerticalPageMarkerPosition(): number {
+	function getVerticalPageMarkerPosition(): number
+	{
 		const linesPerPage = 40.4 // correct for slight drift (only accurate to ~5 pages)
 		const pageHeight = (heightUnit * linesPerPage)
 		const currentPage = Math.round(position.y / pageHeight) || 1 // minimum: 1
