@@ -6,7 +6,10 @@
 	>
 	<p 
 		:class="{ animate, disappearing }"
-		:style="{ transform: 'translate(-'+position.x+'px, -'+position.y+'px)' }"
+		:style="{
+			transform: 'translate(-'+position.x+'px, -'+position.y+'px)',
+			filter: (inkBleed) ? 'blur(0.4px)' : 'none',
+		}"
 	>
 		<span 
 			v-for="char in characters.list" 
@@ -60,10 +63,12 @@
 	const animate = ref(false)
 	const disappearing = ref(false)
 
+	const inkBleed = ref(userPreferences.inkBleed)
 	const pageMarkers = ref(defaultPreferences.pageMarkers)
 	const bellSound = ref(userPreferences.bellSound)
 	const otherSounds = ref(userPreferences.otherSounds)
 	window.menu?.receive('settings', (settings: UserPreferences) => {
+		inkBleed.value = settings.inkBleed ?? defaultPreferences.inkBleed
 		pageMarkers.value = settings.pageMarkers ?? defaultPreferences.pageMarkers
 		bellSound.value = settings.bellSound ?? defaultPreferences.bellSound
 		otherSounds.value = settings.otherSounds ?? defaultPreferences.otherSounds

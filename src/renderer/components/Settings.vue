@@ -18,6 +18,19 @@
 			</select>
 		</div>
 		<div>
+			<label for="ink-bleed-toggle">
+				<h3>Ink bleed</h3>
+				<p>Soften the edges of letters and pen marks</p>
+			</label>
+			<input
+				type="checkbox"
+				id="ink-bleed-toggle"
+				v-model="userPreferences.inkBleed"
+				@change="updatePreferences"
+			/>
+			<label class="toggle" for="ink-bleed-toggle"/>
+		</div>
+		<div>
 			<label for="page-marker-toggle">
 				<h3>Page markers</h3>
 				<p>Show small indicators to mark where the page ends (horizontally and vertically)</p>
