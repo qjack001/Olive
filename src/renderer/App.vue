@@ -8,12 +8,12 @@
 		<settings/>
 	</template>
 	<template v-else>
-		<window-drag-region/>
+		<window-drag-region v-if="env.isElectronApp()"/>
 		<writer/>
 		<cursor/>
 		<panel/>
 		<notification
-			v-if="isBrowser()"
+			v-if="env.isBrowser()"
 			title="Demo version"
 			message="Download the full app for more features!"
 			href="https://github.com/qjack001/Olive"
@@ -33,6 +33,7 @@
 	import Notification from './components/Notification.vue'
 	import Help from './components/Help.vue'
 	import Settings from './components/Settings.vue'
+	import { env } from './electron'
 
 	const page = ref<string | null>(null)
 
@@ -57,10 +58,6 @@
 	{
 		document.documentElement.style.setProperty('--background', backgroundColor)
 		document.documentElement.style.setProperty('--tint', tintColor)
-	}
-
-	function isBrowser(): boolean {
-		return (window.menu === undefined)
 	}
 </script>
 

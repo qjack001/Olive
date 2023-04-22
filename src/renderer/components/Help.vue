@@ -14,13 +14,13 @@
 			<h2>Move</h2>
 			<p>
 				Use the arrow keys to move around the page. Hold <b>Shift</b> to
-				move in large steps, and <b>{{ isMac ? 'Option' : 'Alt' }}</b> to
+				move in large steps, and <b>{{ env.is(MAC_OS) ? 'Option' : 'Alt' }}</b> to
 				move in smaller increments. 
 			</p>
 			<h2>Erase</h2>
 			<p>
-				Press the <b>{{ isMac ? 'Delete' : 'Backspace' }}</b> key to
-				black-out the previous letter. Press <b>{{ isMac ? 'Command & Delete' : 'Control & Backspace' }}</b>
+				Press the <b>{{ env.is(MAC_OS) ? 'Delete' : 'Backspace' }}</b> key to
+				black-out the previous letter. Press <b>{{ env.is(MAC_OS) ? 'Command & Delete' : 'Control & Backspace' }}</b>
 				to toggle in and out of Erase Mode -- type overtop of your previous
 				text in this mode to erase it (this may require multiple passes). 
 			</p>
@@ -40,7 +40,7 @@
 			</ol>
 			<h2>Print</h2>
 			<p>
-				Export your document to PDF by pressing <b>{{ isMac ? 'Command & P' : 'Control & P' }}</b>,
+				Export your document to PDF by pressing <b>{{ env.is(MAC_OS) ? 'Command & P' : 'Control & P' }}</b>,
 				or selecting <b>"Export to PDF"</b> in the menu (under <b>"File"</b>).
 			</p>
 		</section>
@@ -48,10 +48,8 @@
 </template>
 
 <script setup lang="ts">
-	import { ref } from 'vue'
-
 	const isMac = ref(false)
-	window.menu?.receive('os', (os: string) => isMac.value = (os == 'darwin'))
+	import { env } from '../electron'
 </script>
 
 <style scoped>
