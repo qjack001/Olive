@@ -48,8 +48,8 @@
 </template>
 
 <script setup lang="ts">
-	const isMac = ref(false)
 	import { env } from '../electron'
+	const { MAC_OS } = env
 </script>
 
 <style scoped>
