@@ -1,13 +1,12 @@
-import {contextBridge, ipcRenderer} from 'electron'
-// const os = require('os')
+import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld(
-    'menu', {
-        send: (channel: string, data: any) => {
-            ipcRenderer.send(channel, data)
-        },
-        receive: (channel: string, func: Function) => {
-            ipcRenderer.on(channel, (_event, ...args) => func(...args))
-        },
-    }
-)
+export const electronApi = {
+  send: (channel: string, data: any) => {
+    ipcRenderer.send(channel, data);
+  },
+  receive: (channel: string, func: Function) => {
+    ipcRenderer.on(channel, (_event, ...args) => func(...args));
+  },
+};
+
+contextBridge.exposeInMainWorld("menu", electronApi);
