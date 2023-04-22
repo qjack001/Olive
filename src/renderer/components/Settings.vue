@@ -8,7 +8,7 @@
 			</label>
 			<select
 				id="color-select"
-				v-model="userPreferences.defaultPaperColor"
+				v-model="userPreferences.defaultPaperColor.value"
 				@change="updatePreferences"
 			>
 				<option :value="undefined">Random</option>
@@ -25,7 +25,7 @@
 			<input
 				type="checkbox"
 				id="ink-bleed-toggle"
-				v-model="userPreferences.inkBleed"
+				v-model="userPreferences.inkBleed.value"
 				@change="updatePreferences"
 			/>
 			<label class="toggle" for="ink-bleed-toggle"/>
@@ -38,7 +38,7 @@
 			<input
 				type="checkbox"
 				id="page-marker-toggle"
-				v-model="userPreferences.pageMarkers"
+				v-model="userPreferences.pageMarkers.value"
 				@change="updatePreferences"
 			/>
 			<label class="toggle" for="page-marker-toggle"/>
@@ -51,7 +51,7 @@
 			<input
 				type="checkbox"
 				id="bell-toggle"
-				v-model="userPreferences.bellSound"
+				v-model="userPreferences.bellSound.value"
 				@change="updatePreferences"
 			/>
 			<label class="toggle" for="bell-toggle"/>
@@ -64,7 +64,7 @@
 			<input
 				type="checkbox"
 				id="sounds-toggle"
-				v-model="userPreferences.otherSounds"
+				v-model="userPreferences.otherSounds.value"
 				@change="updatePreferences"
 			/>
 			<label class="toggle" for="sounds-toggle"/>

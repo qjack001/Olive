@@ -8,7 +8,7 @@
 		:class="{ animate, disappearing }"
 		:style="{
 			transform: 'translate(-'+position.x+'px, -'+position.y+'px)',
-			filter: (inkBleed) ? 'blur(0.4px)' : 'none',
+			filter: (userPreferences.inkBleed.value) ? 'blur(0.4px)' : 'none',
 		}"
 	>
 		<span 
@@ -19,7 +19,7 @@
 		>
 			{{ char.value }}
 		</span>
-		<template v-if="pageMarkers">
+		<template v-if="userPreferences.pageMarkers.value">
 			<div id="horizontal" class="page-marker" :style="{ transform: 'translateY('+position.y+'px)' }"/>
 			<div id="vertical" class="page-marker" :style="{ top: getVerticalPageMarkerPosition()+'px' }"/>
 		</template>
@@ -30,7 +30,7 @@
 <script setup lang="ts">
 	import { reactive, onMounted, ref, watch } from 'vue'
 	import { v4 as uuid } from 'uuid'
-	import { defaultPreferences, UserPreferences, userPreferences } from '../preferences'
+	import { userPreferences } from '../preferences'
 	import { Character, OliFile, Point } from '../oli-file'
 	import { useSound } from '@vueuse/sound'
 	import smackSfx from '/sounds/smack.mp3'
@@ -62,17 +62,6 @@
 	//
 	const animate = ref(false)
 	const disappearing = ref(false)
-
-	const inkBleed = ref(userPreferences.inkBleed)
-	const pageMarkers = ref(defaultPreferences.pageMarkers)
-	const bellSound = ref(userPreferences.bellSound)
-	const otherSounds = ref(userPreferences.otherSounds)
-	window.menu?.receive('settings', (settings: UserPreferences) => {
-		inkBleed.value = settings.inkBleed ?? defaultPreferences.inkBleed
-		pageMarkers.value = settings.pageMarkers ?? defaultPreferences.pageMarkers
-		bellSound.value = settings.bellSound ?? defaultPreferences.bellSound
-		otherSounds.value = settings.otherSounds ?? defaultPreferences.otherSounds
-	})
 
 	// sound effects
 	const { play: typeSound } = useSound(smackSfx, { volume: 0.05, interrupt: true })
@@ -119,7 +108,7 @@
 	function cartridgeReturn(): void
 	{
 		// only make return noise when more than 2 characters in
-		if (otherSounds.value && position.x > (2 * widthUnit))
+		if (userPreferences.otherSounds.value && position.x > (2 * widthUnit))
 		{
 			returnSound()
 		}
@@ -143,7 +132,7 @@
 		}
 
 		if (letter != ' ') {
-			if (otherSounds.value) {
+			if (userPreferences.otherSounds.value) {
 				typeSound()
 			}
 			
@@ -179,7 +168,7 @@
 			return
 		}
 
-		if (otherSounds.value) {
+		if (userPreferences.otherSounds.value) {
 			// add slight variation to each ka-chunk
 			moveSound({ playbackRate: (Math.random() * 0.1) + 0.9 })
 		}
@@ -187,7 +176,7 @@
 		// when nearing the end, ding the alarm
 		if (position.x > maxWidth - (5 * widthUnit))
 		{
-			if (bellSound.value) {
+			if (userPreferences.bellSound.value) {
 				// add slight variation to each ding
 				dingSound({ playbackRate: (Math.random() * 0.02) + 0.98 })
 			}
@@ -206,7 +195,7 @@
 			return
 		}
 
-		if (otherSounds.value) {
+		if (userPreferences.otherSounds.value) {
 			moveSound()
 		}
 	}

@@ -25,7 +25,7 @@
 <script setup lang="ts">
 	import { onMounted, ref } from 'vue'
 	import { Color, ColorName, TintColor, DEFAULT_COLOR, CssColor } from './paper-color'
-	import { userPreferences } from './preferences'
+	import { getInitPreferences } from './preferences'
 	import WindowDragRegion from './components/WindowDragRegion.vue'
 	import Writer from './components/Writer.vue'
 	import Cursor from './components/Cursor.vue'
@@ -41,9 +41,8 @@
 		page.value = new URLSearchParams(document.location.search).get('page')
 		setRootCssVariables(Color[DEFAULT_COLOR], TintColor[DEFAULT_COLOR])
 
-		window.menu?.receive('init_settings', (_settings: any) => {
-			const pageColor = userPreferences.defaultPaperColor ?? DEFAULT_COLOR
-
+		getInitPreferences.then((preferred) => {
+			const pageColor = preferred.defaultPaperColor ?? DEFAULT_COLOR
 			setRootCssVariables(Color[pageColor], TintColor[pageColor])
 			window.menu?.send('set_color', pageColor)
 			window.menu?.receive('set_color', (color: ColorName) => {
