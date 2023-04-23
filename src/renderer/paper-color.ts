@@ -10,7 +10,8 @@ export const ALL_COLORS = ['white', 'red', 'blue', 'green', 'lavender', 'pink', 
 type ColorTuple = typeof ALL_COLORS
 export type ColorName = ColorTuple[number]
 
-export const Color: Record<ColorName, CssColor> = {
+export const Color: Record<ColorName, CssColor> =
+{
 	white: '#fffcf6',
 	red: '#cf7b7b',
 	blue: '#b8c8e2',
@@ -21,7 +22,8 @@ export const Color: Record<ColorName, CssColor> = {
 	ash: '#282828'
 }
 
-export const TintColor: Record<ColorName, CssColor> = {
+export const TintColor: Record<ColorName, CssColor> =
+{
 	white: 'hsla(40 32% 85% / 50%)',
 	red: 'rgb(173 90 90 / 50%)',
 	blue: 'rgb(141 163 203 / 50%)',
@@ -34,7 +36,8 @@ export const TintColor: Record<ColorName, CssColor> = {
 
 export const DEFAULT_COLOR: ColorName = getRandomColor()
 
-export function getRandomColor(): ColorName {
+export function getRandomColor(): ColorName
+{
 	const allButBlack = ALL_COLORS.filter((color) => color != 'ash')
 	return allButBlack[Math.floor(Math.random() * allButBlack.length)]
 }
