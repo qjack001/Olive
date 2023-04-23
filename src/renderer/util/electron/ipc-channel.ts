@@ -12,7 +12,7 @@ interface IPCChannel
 	/**
 	 * The namespace of the channel. Note: must be unique.
 	 */
-	channelName: string
+	readonly channelName: string
 }
 
 /**
@@ -24,7 +24,7 @@ interface MainToRendererChannel<T> extends IPCChannel
 	 * Runs a callback function when a message is received through the given channel.
 	 * @param callback The function to run on a new message.
 	 */
-	onUpdate: (callback: (data: T) => void) => void
+	readonly onUpdate: (callback: (data: T) => void) => void
 }
 
 /**
@@ -36,7 +36,7 @@ interface RendererToMainChannel<T> extends IPCChannel
 	 * Sends a message to the given channel.
 	 * @param data The object to send as the message.
 	 */
-	send: (data: T) => void
+	readonly send: (data: T) => void
 }
 
 /**
@@ -45,8 +45,8 @@ interface RendererToMainChannel<T> extends IPCChannel
  */
 export class MainToRendererOnlyChannel<T> implements MainToRendererChannel<T>
 {
-	channelName: string
-	onUpdate: (callback: (data: T) => void) => void
+	readonly channelName: string
+	readonly onUpdate: (callback: (data: T) => void) => void
 
 	/**
 	 * Creates a new channel, with Main-to-Renderer communication only.
@@ -65,8 +65,8 @@ export class MainToRendererOnlyChannel<T> implements MainToRendererChannel<T>
  */
 export class RendererToMainOnlyChannel<T> implements RendererToMainChannel<T>
 {
-	channelName: string
-	send: (data: T) => void
+	readonly channelName: string
+	readonly send: (data: T) => void
 
 	/**
 	 * Creates a new channel, with Main-to-Renderer communication only.
@@ -85,9 +85,9 @@ export class RendererToMainOnlyChannel<T> implements RendererToMainChannel<T>
  */
 export class TwoWayChannel<T> implements MainToRendererChannel<T>, RendererToMainChannel<T>
 {
-	channelName: string
-	onUpdate: (callback: (data: T) => void) => void
-	send: (data: T) => void
+	readonly channelName: string
+	readonly onUpdate: (callback: (data: T) => void) => void
+	readonly send: (data: T) => void
 
 	/**
 	 * Creates a new channel, with communication from Main to Renderer, as well
