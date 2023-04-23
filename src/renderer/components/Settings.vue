@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 	import { ALL_COLORS } from '../paper-color'
-	import { updatePreferences, userPreferences } from '../preferences'	
+	import { updatePreferences, userPreferences } from '../util/preferences'
 
 	function capitalize(text: string) {
 		return text.charAt(0).toUpperCase() + text.slice(1)

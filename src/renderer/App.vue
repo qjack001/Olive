@@ -33,7 +33,7 @@
 	import Notification from './components/Notification.vue'
 	import Help from './components/Help.vue'
 	import Settings from './components/Settings.vue'
-	import { env } from './electron'
+	import { Channel, env } from './util/electron'
 
 	const page = ref<string | null>(null)
 
@@ -44,13 +44,10 @@
 		getInitPreferences.then((preferred) => {
 			const pageColor = preferred.defaultPaperColor ?? DEFAULT_COLOR
 			setRootCssVariables(Color[pageColor], TintColor[pageColor])
-			window.menu?.send('set_color', pageColor)
-			window.menu?.receive('set_color', (color: ColorName) => {
-				if (color) {
-					setRootCssVariables(Color[color], TintColor[color])
-				}
-			})
+			Channel.SET_COLOR.send(pageColor) // tell the menubar which color to select
 		})
+
+		Channel.SET_COLOR.onUpdate((color: ColorName) => setRootCssVariables(Color[color], TintColor[color]))
 	})
 
 	function setRootCssVariables(backgroundColor: CssColor, tintColor: CssColor): void

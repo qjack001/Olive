@@ -30,8 +30,9 @@
 <script setup lang="ts">
 	import { reactive, onMounted, ref, watch } from 'vue'
 	import { v4 as uuid } from 'uuid'
-	import { userPreferences } from '../preferences'
-	import { Character, OliFile, Point } from '../oli-file'
+	import { Channel } from '../util/electron'
+	import { userPreferences } from '../util/preferences'
+	import { Character, OliFileVersion1, Point } from '../oli-file'
 	import { useSound } from '@vueuse/sound'
 	import smackSfx from '/sounds/smack.mp3'
 	import chunkSfx from '/sounds/chunk.mp3'
@@ -232,17 +233,21 @@
 
 	onMounted(() => {
 
-		window.menu?.receive('file_content', (file: OliFile) => {
+		Channel.FILE_CONTENT.onUpdate((file: OliFileVersion1) => {
 			characters.list = file.content
 			initialPenPoints.list = file.penMarkings ?? []
 
 			drawingCanvas.value.drawAll(initialPenPoints.list)
 		})
-		window.menu?.receive('save_request', () => {
-			window.menu?.send('file_content', JSON.parse(JSON.stringify({
+
+		Channel.SAVE_REQUEST.onUpdate(() => {
+			
+			Channel.FILE_CONTENT.send({
+				version: 1.0,
 				content: characters.list,
 				penMarkings: [...initialPenPoints.list, ...penPoints.list]
-			})))
+			})
+
 			// allow closing without alert now that content is saved
 			window.onbeforeunload = () => undefined
 		})

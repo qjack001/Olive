@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-	import { env } from '../electron'
+	import { env } from '../util/electron'
 	const { MAC_OS } = env
 </script>
 
