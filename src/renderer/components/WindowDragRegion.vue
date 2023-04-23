@@ -10,12 +10,14 @@
 </template>
 
 <script setup lang="ts">
+	import { Channel } from '../util/electron';
+
 	const props = defineProps({
 		closePage: String
 	})
 
 	function closeModel() {
-		window.menu?.send('close_page', props.closePage)
+		Channel.CLOSE_MODEL.send(props.closePage ?? '')
 	}
 </script>
 

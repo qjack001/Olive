@@ -6,11 +6,12 @@
 
 <script setup lang="ts">
 	import { onMounted, ref } from 'vue'
+	import { Channel } from '../util/electron'
 
 	const eraseMode = ref(false)
 
 	onMounted(() => {
-		window.menu?.receive('erase_mode', (modeValue: boolean) => {
+		Channel.ERASE_MODE.onUpdate((modeValue: boolean) => {
 			eraseMode.value = modeValue
 		})
 	})
