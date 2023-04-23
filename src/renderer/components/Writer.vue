@@ -32,7 +32,7 @@
 	import { v4 as uuid } from 'uuid'
 	import { Channel } from '../util/electron'
 	import { userPreferences } from '../util/preferences'
-	import { Character, OliFileVersion1, Point } from '../oli-file'
+	import { Character, OliFileVersion1, Point } from '../util/oli-file'
 	import { useSound } from '@vueuse/sound'
 	import smackSfx from '/sounds/smack.mp3'
 	import chunkSfx from '/sounds/chunk.mp3'

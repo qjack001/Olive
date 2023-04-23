@@ -5,7 +5,7 @@
 <script setup lang="ts">
 	import { onMounted, ref } from 'vue'
 	import { v4 as uuid } from 'uuid'
-	import { Point } from '../oli-file'
+	import { Point } from '../util/oli-file'
 	import InfiniteCanvas, {
 		InfiniteCanvasRenderingContext2D,
 		InfiniteCanvasEventWithDefaultBehavior

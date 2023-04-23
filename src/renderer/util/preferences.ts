@@ -1,6 +1,6 @@
 import { ref, type Ref } from 'vue'
 import { Channel, env } from './electron'
-import { ColorName } from '../paper-color'
+import { ColorName } from './paper-color'
 
 /**
  * The stored preferences settings of the user.

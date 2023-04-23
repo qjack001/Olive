@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ALL_COLORS } from '../paper-color'
+	import { ALL_COLORS } from '../util/paper-color'
 	import { updatePreferences, userPreferences } from '../util/preferences'
 
 	function capitalize(text: string) {

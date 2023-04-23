@@ -24,8 +24,8 @@
 
 <script setup lang="ts">
 	import { onMounted, ref } from 'vue'
-	import { Color, ColorName, TintColor, DEFAULT_COLOR, CssColor } from './paper-color'
-	import { getInitPreferences } from './preferences'
+	import { Color, ColorName, TintColor, DEFAULT_COLOR, CssColor } from './util/paper-color'
+	import { getInitPreferences } from './util/preferences'
 	import WindowDragRegion from './components/WindowDragRegion.vue'
 	import Writer from './components/Writer.vue'
 	import Cursor from './components/Cursor.vue'

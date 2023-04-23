@@ -1,7 +1,8 @@
-import { OliFileVersion1 } from '../../oli-file'
-import { ColorName } from '../../paper-color'
-import { UserPreferences } from '../../preferences'
+import { OliFileVersion1 } from '../oli-file'
+import { ColorName } from '../paper-color'
+import { UserPreferences } from '../preferences'
 import { OperatingSystem } from './environment'
+import { MainToRendererOnlyChannel, RendererToMainOnlyChannel, TwoWayChannel } from './ipc-channel'
 
 
 /**
