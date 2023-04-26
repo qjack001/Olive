@@ -47,7 +47,11 @@
 			Channel.SET_COLOR.send(pageColor) // tell the menubar which color to select
 		})
 
-		Channel.SET_COLOR.onUpdate((color: ColorName) => setRootCssVariables(Color[color], TintColor[color]))
+		Channel.SET_COLOR.onUpdate((color?: ColorName) => {
+			if (color) {
+				setRootCssVariables(Color[color], TintColor[color])
+			}
+		})
 	})
 
 	function setRootCssVariables(backgroundColor: CssColor, tintColor: CssColor): void
