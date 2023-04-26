@@ -1,8 +1,8 @@
-import { OliFileVersion1 } from '../oli-file'
-import { ColorName } from '../paper-color'
-import { UserPreferences } from '../preferences'
-import { OperatingSystem } from './environment'
-import { MainToRendererOnlyChannel, RendererToMainOnlyChannel, TwoWayChannel } from './ipc-channel'
+import { type OliFileVersion1 } from '../oli-file'
+import { type ColorName } from '../paper-color'
+import { type UserPreferences } from '../preferences'
+import { type OperatingSystem } from './environment'
+import { MainToRendererOnlyChannel, RendererToMainOnlyChannel, TwoWayChannel } from './ipc-renderer-channel'
 
 
 /**
@@ -29,7 +29,7 @@ export const Channel =
 	 * chosen in the menubar, and sent to the main process when color is selected
 	 * from the user's preferences/randomly chosen.
 	 */
-	SET_COLOR: new TwoWayChannel<ColorName>('SET_COLOR'),
+	SET_COLOR: new TwoWayChannel<ColorName | undefined>('SET_COLOR'),
 
 	/**
 	 * The user's operating system. Main to renderer only.
