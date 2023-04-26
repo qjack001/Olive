@@ -1,8 +1,9 @@
 import { app, BrowserWindow, session, dialog, MenuItemConstructorOptions, shell, MenuItem } from 'electron'
 import isFirstLaunch from 'electron-first-run'
-import { Color, ColorName } from '../renderer/paper-color'
-import { Character, OliFile, OliFileVersion1, FILE_EXTENSION } from '../renderer/oli-file'
-import { newWindow, setMenu, when, whenChild } from './window'
+import { Color, ColorName } from '../renderer/util/paper-color'
+import { OliFile, OliFileVersion1, FILE_EXTENSION } from '../renderer/util/oli-file'
+import { newWindow, setMenu } from './window'
+import { Channel } from '../renderer/util/electron/ipc-main-channel'
 import * as fs from 'fs'
 
 type PageData = {
@@ -108,13 +109,13 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 					accelerator: 'CommandOrControl+S',
 					click: () => {
 						pageData.saveWithoutDialog = true
-						page.MAIN.webContents.send('save_request', '')
+						Channel.SAVE_REQUEST.send(page.MAIN, true)
 					}
 				},
 				{
 					label: 'Save As',
 					accelerator: 'CommandOrControl+Shift+S',
-					click: () => page.MAIN.webContents.send('save_request', '')
+					click: () => Channel.SAVE_REQUEST.send(page.MAIN, true)
 				},
 				{
 					label: 'Print To PDF',
@@ -163,12 +164,12 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 					accelerator: 'CommandOrControl+Backspace',
 					id: 'erase-mode',
 					type: 'checkbox',
-					click: (eraseMode) => page.MAIN.webContents.send('erase_mode', eraseMode.checked),
+					click: (eraseMode) => Channel.ERASE_MODE.send(page.MAIN, eraseMode.checked),
 				},
 				{
 					label: 'Disappearing Ink',
 					type: 'checkbox',
-					click: (disappearingMode) => page.MAIN.webContents.send('disappearing_mode', disappearingMode.checked),
+					click: (disappearingMode) => Channel.DISAPPEARING_MODE.send(page.MAIN, disappearingMode.checked),
 				},
 				{ type: 'separator' },
 				{ role: 'close' },
@@ -231,29 +232,30 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 		page.HELP = newWindow('help', { parent: page.MAIN })
 	}
 
-	when('set_color', page.MAIN, (color: string) => {
-		const colorOption = menu.getMenuItemById(color)
-		if (colorOption) {
-			colorOption.checked = true
+	Channel.SET_COLOR.onUpdate(page.MAIN, (color) => {
+		if (color) {
+			const colorOption = menu.getMenuItemById(color)
+			if (colorOption) {
+				colorOption.checked = true
+			}
 		}
 	})
 
-	when('erase_mode', page.MAIN, (_value: boolean) => {
+	Channel.ERASE_MODE.onUpdate(page.MAIN, (_value) => {
 		const eraseModeOption = menu.getMenuItemById('erase-mode')
 		if (eraseModeOption) {
 			eraseModeOption.checked = !eraseModeOption.checked
-			page.MAIN.webContents.send('erase_mode', eraseModeOption.checked)
+			Channel.ERASE_MODE.send(page.MAIN, eraseModeOption.checked)
 		}
 	})
 
-	whenChild('close_page', page.MAIN, (pageId: string) => {
+	Channel.CLOSE_MODEL.onUpdateFromChildWindow(page.MAIN, (pageId) => {
 		if (!page[pageId].isDestroyed()) {
 			page[pageId].close()
 		}
 	})
 
-	when('file_content', page.MAIN, (fileFromRenderer: Partial<OliFile>) => {
-
+	Channel.FILE_CONTENT.onUpdate(page.MAIN, (fileFromRenderer) => {
 		const file: OliFileVersion1 = {
 			version: 1.0,
 			content: fileFromRenderer.content ?? [],
@@ -273,7 +275,9 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 			properties: ['createDirectory', 'showOverwriteConfirmation']
 		})
 		.then((result: Electron.SaveDialogReturnValue) => {
-			if (result.canceled || result.filePath === undefined) return
+			if (result.canceled || result.filePath === undefined) {
+				return
+			}
 			saveFile(page.MAIN, pageData, result.filePath, file)
 		})
 	})
@@ -329,7 +333,7 @@ function getColorOptions(window: BrowserWindow): Electron.MenuItemConstructorOpt
 			label: color,
 			type: 'radio',
 			click: () => {
-				window.webContents.send('set_color', color)
+				Channel.SET_COLOR.send(window, color as ColorName)
 			}
 		}
 	})
@@ -356,7 +360,6 @@ function saveFile(window: BrowserWindow, windowData: PageData, filePath: string,
 				'Please try again, and if the issue persists, file a bug report.')
 		}
 
-		window.webContents.send('save_complete', '')
 		windowData.filepath = filePath // save the filepath used for future saves
 	})
 }
@@ -374,8 +377,8 @@ function openFile(window: BrowserWindow, filepath: string): void {
 		}
 
 		window.on('ready-to-show', () => {
-			window.webContents.send('file_content', file)
-			window.webContents.send('set_color', file.paperColor)
+			Channel.FILE_CONTENT.send(window, file)
+			Channel.SET_COLOR.send(window, file.paperColor)
 		})
 	})
 }

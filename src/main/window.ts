@@ -1,4 +1,5 @@
-import { app, BrowserWindow, BrowserWindowConstructorOptions, dialog, ipcMain, IpcMainEvent, Menu, MenuItemConstructorOptions } from 'electron'
+import { app, BrowserWindow, BrowserWindowConstructorOptions, dialog, Menu, MenuItemConstructorOptions } from 'electron'
+import { Channel } from '../renderer/util/electron/ipc-main-channel'
 import { join } from 'path'
 import Store from 'electron-store'
 
@@ -40,19 +41,15 @@ export function newWindow(page: string | undefined, props: WindowOptions, option
 
 	const userPreferences = new Store()
 
-	when('settings', window, (updatedPreferences) => {
-		userPreferences.store = updatedPreferences
-		BrowserWindow.getAllWindows().map((window) => {
-			if (!window.isDestroyed()) {
-				window.webContents.send('settings', userPreferences.store)
-			}
-		})
+	Channel.SETTINGS.onUpdate(window, (updatedPreferences) => {
+		userPreferences.store = updatedPreferences as any
+		Channel.SETTINGS.sendToAllWindows(userPreferences.store as any)
 	})
 
 	window.on('ready-to-show', () => {
-		window.webContents.send('os', process.platform)
-		window.webContents.send('init_settings', userPreferences.store)
-		window.webContents.send('settings', userPreferences.store)
+		Channel.OPERATING_SYSTEM.send(window, process.platform)
+		Channel.INITIAL_SETTINGS.send(window, userPreferences.store as any)
+		Channel.SETTINGS.send(window, userPreferences.store as any)
 
 		// add additional delay to let rendering finish
 		setTimeout(() => {
@@ -105,20 +102,4 @@ export function setMenu(window: BrowserWindow, menu: MenuItemConstructorOptions[
 	}
 
 	return compiledMenu
-}
-
-export function when(channel: string, window: BrowserWindow, then: (data: any) => void): void {
-	ipcMain.on(channel, (event: IpcMainEvent, data: any) => {
-		if (!window.isDestroyed() && BrowserWindow.fromWebContents(event.sender)?.id === window.id) {
-			then(data)
-		}
-	})
-}
-
-export function whenChild(channel: string, window: BrowserWindow, then: (data: any) => void): void {
-	ipcMain.on(channel, (event: IpcMainEvent, data: any) => {
-		if (!window.isDestroyed() && BrowserWindow.fromWebContents(event.sender)?.getParentWindow()?.id === window.id) {
-			then(data)
-		}
-	})
 }
