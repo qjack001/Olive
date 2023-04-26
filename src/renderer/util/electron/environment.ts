@@ -7,17 +7,20 @@ import { Channel } from './channels'
  */
 
 /** Operating System names, as returned by Node's process method */
-export type OperatingSystem = 'aix' | 'darwin' | 'freebsd' | 'linux' | 'openbsd' | 'sunos' | 'win32'
+export type OperatingSystem = 'aix' | 'android' | 'darwin' | 'freebsd' | 'haiku' | 'linux' | 'openbsd' | 'sunos' | 'win32' | 'cygwin' | 'netbsd'
 type RuntimeEnvironment = OperatingSystem | 'browser' | 'other' // this app can also be run in the browser
 enum envEnum { BROWSER, MAC_OS, WINDOWS, LINUX, OTHER }
 
 /** Private variable for storing the current environment */
-const runtimeEnvironment: Ref<RuntimeEnvironment> = ref((window.menu === undefined)
-	? 'browser'
-	: 'other'
+const runtimeEnvironment: Ref<RuntimeEnvironment> = ref(windowMenuExists()
+	? 'other'
+	: 'browser'
 )
 
-Channel.OPERATING_SYSTEM.onUpdate((os) => runtimeEnvironment.value = os)
+export function listenForOperatingSystemChanges()
+{
+	Channel.OPERATING_SYSTEM.onUpdate((os) => runtimeEnvironment.value = os)
+}
 
 /**
  * The current environment the application is running in. Either MacOS, Windows,
@@ -47,4 +50,10 @@ export const env =
 	is: (environment: envEnum): boolean => (env.runtime() == environment),
 	isBrowser: (): boolean => (env.runtime() == env.BROWSER),
 	isElectronApp: (): boolean => (env.runtime() != env.BROWSER),
+}
+
+export function windowMenuExists(): boolean
+{
+	// @ts-ignore
+	return !(typeof window === "undefined" || window?.menu === undefined)
 }
