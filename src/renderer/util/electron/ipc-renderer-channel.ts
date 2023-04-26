@@ -2,12 +2,14 @@
  * Interfaces and classes for defining IPC channels.
  */
 
+import { windowMenuExists } from "./environment"
+
 
 /**
  * Inter-Process Communication (IPC) channel. See:
  * https://www.electronjs.org/docs/latest/tutorial/ipc#ipc-channels
  */
-interface IPCChannel
+interface IpcChannel
 {
 	/**
 	 * The namespace of the channel. Note: must be unique.
@@ -18,19 +20,19 @@ interface IPCChannel
 /**
  * A channel that can send messages from the main process to the renderer.
  */
-interface MainToRendererChannel<T> extends IPCChannel
+interface MainToRendererChannel<T> extends IpcChannel
 {
 	/**
 	 * Runs a callback function when a message is received through the given channel.
-	 * @param callback The function to run on a new message.
+	 * @param then The callback function to run on a new message.
 	 */
-	readonly onUpdate: (callback: (data: T) => void) => void
+	readonly onUpdate: (then: (data: T) => void) => void
 }
 
 /**
  * A channel that can send messages from the renderer to the main process.
  */
-interface RendererToMainChannel<T> extends IPCChannel
+interface RendererToMainChannel<T> extends IpcChannel
 {
 	/**
 	 * Sends a message to the given channel.
@@ -55,7 +57,14 @@ export class MainToRendererOnlyChannel<T> implements MainToRendererChannel<T>
 	constructor(channelName: string)
 	{
 		this.channelName = channelName
-		this.onUpdate = (callback: (data: T) => void) => window.menu?.receive(channelName, callback)
+		// @ts-ignore
+		this.onUpdate = (then: (data: T) => void) => {
+			if (windowMenuExists())
+			{
+				// @ts-ignore
+				window.menu.receive(channelName, then)
+			}
+		}
 	}
 }
 
@@ -75,7 +84,14 @@ export class RendererToMainOnlyChannel<T> implements RendererToMainChannel<T>
 	constructor(channelName: string)
 	{
 		this.channelName = channelName
-		this.send = (data: T) => window.menu?.send(channelName, deepClone(data))
+		// @ts-ignore
+		this.send = (data: T) => {
+			if (windowMenuExists())
+			{
+				// @ts-ignore
+				window.menu.send(channelName, deepClone(data))
+			}
+		}
 	}
 }
 
@@ -86,7 +102,7 @@ export class RendererToMainOnlyChannel<T> implements RendererToMainChannel<T>
 export class TwoWayChannel<T> implements MainToRendererChannel<T>, RendererToMainChannel<T>
 {
 	readonly channelName: string
-	readonly onUpdate: (callback: (data: T) => void) => void
+	readonly onUpdate: (then: (data: T) => void) => void
 	readonly send: (data: T) => void
 
 	/**
@@ -97,8 +113,20 @@ export class TwoWayChannel<T> implements MainToRendererChannel<T>, RendererToMai
 	constructor(channelName: string)
 	{
 		this.channelName = channelName
-		this.onUpdate = (callback: (data: T) => void) => window.menu?.receive(channelName, callback)
-		this.send = (data: T) => window.menu?.send(channelName, deepClone(data))
+		this.onUpdate = (then: (data: T) => void) => {
+			if (windowMenuExists())
+			{
+				// @ts-ignore
+				window.menu.receive(channelName, then)
+			}
+		}
+		this.send = (data: T) => {
+			if (windowMenuExists())
+			{
+				// @ts-ignore
+				window.menu.send(channelName, deepClone(data))
+			}
+		}
 	}
 }
 
