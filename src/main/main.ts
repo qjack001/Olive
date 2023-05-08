@@ -41,9 +41,9 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 					accelerator: 'CommandOrControl+,',
 					click: () => newWindow('settings', {
 						width: 620,
-						height: 530,
+						height: 600,
 						minWidth: 480,
-						minHeight: 530,
+						minHeight: 600,
 						singleton: true,
 					})
 				},
