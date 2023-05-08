@@ -31,17 +31,16 @@ export type Point = null |
 	o: number,
 }
 
-export const FILE_EXTENSION = ".oli"
+export const FILE_EXTENSION = '.oli'
 
-export interface OliFileVersion1
+export interface OliFile
 {
 	version: 1.0
-	content: Character[]
+	content?: Character[]
 	penMarkings?: Point[]
 	paperColor?: ColorName
 }
 
-export type OliFile = OliFileVersion1
 type CompressedText = [number, number, string, boolean] | [number, number, string]
 type CompressedPen = [number, number, number, number] | null
 

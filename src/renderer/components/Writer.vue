@@ -32,7 +32,7 @@
 	import { v4 as uuid } from 'uuid'
 	import { Channel } from '../util/electron'
 	import { userPreferences } from '../util/preferences'
-	import { Character, OliFileVersion1, Point } from '../util/oli-file'
+	import { Character, OliFile, Point } from '../util/oli-file'
 	import { useSound } from '@vueuse/sound'
 	import smackSfx from '/sounds/smack.mp3'
 	import chunkSfx from '/sounds/chunk.mp3'
@@ -77,7 +77,6 @@
 		if (e.metaKey)
 		{
 			if (e.key == 'Backspace') {
-				// the 'true' value is ignored, just treated as a toggle
 				Channel.ERASE_MODE.send(!deleteKeyPressed.value)
 			}
 
@@ -233,8 +232,8 @@
 
 	onMounted(() => {
 
-		Channel.FILE_CONTENT.onUpdate((file: OliFileVersion1) => {
-			characters.list = file.content
+		Channel.FILE_CONTENT.onUpdate((file: OliFile) => {
+			characters.list = file.content ?? []
 			initialPenPoints.list = file.penMarkings ?? []
 
 			drawingCanvas.value.drawAll(initialPenPoints.list)

@@ -256,9 +256,9 @@ function createWindow (pageData: PageData = {filepath: undefined}) {
 	})
 
 	Channel.FILE_CONTENT.onUpdate(page.MAIN, (fileFromRenderer) => {
-		const file: OliFileVersion1 = {
+		const file: OliFile = {
 			version: 1.0,
-			content: fileFromRenderer.content ?? [],
+			content: fileFromRenderer.content,
 			penMarkings: fileFromRenderer.penMarkings,
 			paperColor: getSelectedColorOption(menu.getMenuItemById('paper-color')),
 		}

@@ -1,4 +1,4 @@
-import { type OliFileVersion1 } from '../oli-file'
+import { type OliFile } from '../oli-file'
 import { type ColorName } from '../paper-color'
 import { type UserPreferences } from '../preferences'
 import { type OperatingSystem } from './environment'
@@ -40,7 +40,7 @@ export const Channel =
 	 * The contents of the file -- sent to the renderer when a file is opened,
 	 * and to the main process when a file is being saved.
 	 */
-	FILE_CONTENT: new TwoWayChannel<OliFileVersion1>('FILE_CONTENT'),
+	FILE_CONTENT: new TwoWayChannel<OliFile>('FILE_CONTENT'),
 	
 	/**
 	 * Request for file content to save. Main to renderer only.

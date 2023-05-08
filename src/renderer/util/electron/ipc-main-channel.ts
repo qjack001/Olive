@@ -1,6 +1,6 @@
 import { BrowserWindow, ipcMain, IpcMainEvent } from 'electron'
 import { OperatingSystem } from '.'
-import { OliFileVersion1 } from '../oli-file'
+import { OliFile } from '../oli-file'
 import { ColorName } from '../paper-color'
 import { UserPreferences } from '../preferences'
 
@@ -85,7 +85,7 @@ export const Channel =
 	 * The contents of the file -- sent to the renderer when a file is opened,
 	 * and to the main process when a file is being saved.
 	 */
-	FILE_CONTENT: new IpcMainContextChannel<OliFileVersion1>('FILE_CONTENT'),
+	FILE_CONTENT: new IpcMainContextChannel<OliFile>('FILE_CONTENT'),
 	
 	/**
 	 * Request for file content to save. Main to renderer only.
