@@ -20,8 +20,8 @@
 			{{ char.value }}
 		</span>
 		<template v-if="userPreferences.pageMarkers.value">
-			<div id="horizontal" class="page-marker" :style="{ transform: 'translateY('+position.y+'px)' }"/>
-			<div id="vertical" class="page-marker" :style="{ top: getVerticalPageMarkerPosition()+'px' }"/>
+			<div id="horizontal" class="page-marker" :style="{ transform: `translateY(${position.y}px)` }"/>
+			<div id="vertical" class="page-marker" :style="{ top: `${getVerticalPageMarkerPosition()}px` }"/>
 		</template>
 		<drawing-canvas v-model:penPoints="penPoints.list" ref="drawingCanvas"/>
 	</p>
@@ -236,7 +236,8 @@
 			characters.list = file.content ?? []
 			initialPenPoints.list = file.penMarkings ?? []
 
-			drawingCanvas.value.drawAll(initialPenPoints.list)
+			// delay drawing, since it can block all other processes and takes a while
+			setTimeout(() => drawingCanvas.value.drawAll(initialPenPoints.list), 100)
 		})
 
 		Channel.SAVE_REQUEST.onUpdate(() => {
@@ -252,7 +253,7 @@
 		})
 
 		Channel.ERASE_MODE.onUpdate((modeValue) => deleteKeyPressed.value = modeValue)
-		
+
 		Channel.DISAPPEARING_MODE.onUpdate((modeValue) => disappearing.value = modeValue)
 
 		refocus() // focus writer immediately on load
