@@ -7,14 +7,14 @@
 	<p 
 		:class="{ animate, disappearing }"
 		:style="{
-			transform: 'translate(-'+position.x+'px, -'+position.y+'px)',
-			filter: (userPreferences.inkBleed.value) ? 'blur(0.4px)' : 'none',
+			transform: `translate(${-position.x}px,${-position.y}px)`,
+			filter: (userPreferences.inkBleed.value) ? 'blur(0.3px)' : 'none',
 		}"
 	>
 		<span 
 			v-for="char in characters.list" 
 			:key="char.id"
-			:style="{ left: char.posX+'px', top: char.posY+'px' }"
+			:style="{ left: `${char.posX}px`, top: `${char.posY}px` }"
 			:class="{ 'letter': true, 'erase': char.erase }"
 		>
 			{{ char.value }}
