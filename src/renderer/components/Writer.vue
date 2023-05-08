@@ -78,7 +78,7 @@
 		{
 			if (e.key == 'Backspace') {
 				// the 'true' value is ignored, just treated as a toggle
-				window.menu?.send('erase_mode', true)
+				Channel.ERASE_MODE.send(!deleteKeyPressed.value)
 			}
 
 			return
@@ -252,13 +252,9 @@
 			window.onbeforeunload = () => undefined
 		})
 
-		window.menu?.receive('erase_mode', (modeValue: boolean) => {
-			deleteKeyPressed.value = modeValue
-		})
-
-		window.menu?.receive('disappearing_mode', (modeValue: boolean) => {
-			disappearing.value = modeValue
-		})
+		Channel.ERASE_MODE.onUpdate((modeValue) => deleteKeyPressed.value = modeValue)
+		
+		Channel.DISAPPEARING_MODE.onUpdate((modeValue) => disappearing.value = modeValue)
 
 		refocus() // focus writer immediately on load
 	})
