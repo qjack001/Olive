@@ -17,6 +17,12 @@
 			@update:value="(updated: boolean) => update(userPreferences.inkBleed, updated)"
 		/>
 		<toggle
+			name="Draw on page"
+			description="Allow marking up the page with blue pen."
+			:value="userPreferences.drawWithPen.value"
+			@update:value="(updated: boolean) => update(userPreferences.drawWithPen, updated)"
+		/>
+		<toggle
 			name="Page markers"
 			description="Show small indicators to mark where the page ends (horizontally and vertically)"
 			:value="userPreferences.pageMarkers.value"

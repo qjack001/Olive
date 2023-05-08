@@ -1,11 +1,17 @@
 <template>
-	<canvas :id="elementId" :width="canvasWidth" :height="canvasHeight"/>
+	<canvas
+		:id="elementId"
+		:width="canvasWidth"
+		:height="canvasHeight"
+		:class="{ 'can-write': userPreferences.drawWithPen.value }"
+	/>
 </template>
 
 <script setup lang="ts">
 	import { onMounted, ref } from 'vue'
 	import { v4 as uuid } from 'uuid'
 	import { Point } from '../util/oli-file'
+	import { userPreferences } from '../util/preferences'
 	import InfiniteCanvas, {
 		InfiniteCanvasRenderingContext2D,
 		InfiniteCanvasEventWithDefaultBehavior
@@ -132,6 +138,11 @@
 		top: -800px;
 		left: -1200px;
 		z-index: 99;
+		pointer-events: none;
+	}
+
+	canvas.can-write
+	{
 		pointer-events: all;
 	}
 

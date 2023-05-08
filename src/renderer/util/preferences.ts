@@ -29,6 +29,16 @@ export interface UserPreferences
 	inkBleed: boolean
 
 	/**
+	 * Whether or not drawing with the pen is enabled.
+	 * When true, the DrawingCanvas.vue component will
+	 * listen for pointer-down + mouse move events and
+	 * add to the pen markings.
+	 * 
+	 * @default true
+	 */
+	drawWithPen: boolean
+
+	/**
 	 * Whether or not to show the page markers, which
 	 * visually indicate where the edges of the paper
 	 * are (horizontally and vertically).
@@ -78,6 +88,7 @@ export const defaultPreferences: UserPreferences =
 {
 	defaultPaperColor: undefined,
 	inkBleed: false,
+	drawWithPen: true,
 	pageMarkers: true,
 	bellSound: true,
 	otherSounds: true,
@@ -95,6 +106,7 @@ export const userPreferences: RefWrapped<UserPreferences> =
 {
 	defaultPaperColor: ref(defaultPreferences.defaultPaperColor),
 	inkBleed: ref(defaultPreferences.inkBleed),
+	drawWithPen: ref(defaultPreferences.drawWithPen),
 	pageMarkers: ref(defaultPreferences.pageMarkers),
 	bellSound: ref(defaultPreferences.bellSound),
 	otherSounds: ref(defaultPreferences.otherSounds),
@@ -119,6 +131,7 @@ export const getInitPreferences = new Promise<UserPreferences>((resolve) =>
 		resolve({
 			defaultPaperColor: settings?.defaultPaperColor ?? defaultPreferences.defaultPaperColor,
 			inkBleed:          settings?.inkBleed          ?? defaultPreferences.inkBleed,
+			drawWithPen:       settings?.drawWithPen       ?? defaultPreferences.drawWithPen,
 			pageMarkers:       settings?.pageMarkers       ?? defaultPreferences.pageMarkers,
 			bellSound:         settings?.bellSound         ?? defaultPreferences.bellSound,
 			otherSounds:       settings?.otherSounds       ?? defaultPreferences.otherSounds,
@@ -147,6 +160,7 @@ Channel.SETTINGS.onUpdate((settings) =>
 {
 	updateUserPreferences('defaultPaperColor', settings)
 	updateUserPreferences('inkBleed', settings)
+	updateUserPreferences('drawWithPen', settings)
 	updateUserPreferences('pageMarkers', settings)
 	updateUserPreferences('bellSound', settings)
 	updateUserPreferences('otherSounds', settings)
