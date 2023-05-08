@@ -1,83 +1,52 @@
 <template>
 	<section>
 		<h1>Preferences</h1>
-		<div>
-			<label for="color-select">
-				<h3>Default paper color</h3>
-				<p>The color chosen for new documents</p>
-			</label>
-			<select
-				id="color-select"
-				v-model="userPreferences.defaultPaperColor.value"
-				@change="() => updatePreferences()"
-			>
-				<option :value="undefined">Random</option>
-				<option v-for="color in ALL_COLORS" :value="color">
-					{{ capitalize(color) }}
-				</option>
-			</select>
-		</div>
-		<div>
-			<label for="ink-bleed-toggle">
-				<h3>Ink bleed</h3>
-				<p>Soften the edges of letters and pen marks</p>
-			</label>
-			<input
-				type="checkbox"
-				id="ink-bleed-toggle"
-				v-model="userPreferences.inkBleed.value"
-				@change="() => updatePreferences()"
-			/>
-			<label class="toggle" for="ink-bleed-toggle"/>
-		</div>
-		<div>
-			<label for="page-marker-toggle">
-				<h3>Page markers</h3>
-				<p>Show small indicators to mark where the page ends (horizontally and vertically)</p>
-			</label>
-			<input
-				type="checkbox"
-				id="page-marker-toggle"
-				v-model="userPreferences.pageMarkers.value"
-				@change="() => updatePreferences()"
-			/>
-			<label class="toggle" for="page-marker-toggle"/>
-		</div>
-		<div>
-			<label for="bell-toggle">
-				<h3>Bell sound</h3>
-				<p>Ding the bell when approaching the end of the page</p>
-			</label>
-			<input
-				type="checkbox"
-				id="bell-toggle"
-				v-model="userPreferences.bellSound.value"
-				@change="() => updatePreferences()"
-			/>
-			<label class="toggle" for="bell-toggle"/>
-		</div>
-		<div>
-			<label for="sounds-toggle">
-				<h3>Typewriter sounds</h3>
-				<p>Play sounds when the page moves and when letters are printed</p>
-			</label>
-			<input
-				type="checkbox"
-				id="sounds-toggle"
-				v-model="userPreferences.otherSounds.value"
-				@change="() => updatePreferences()"
-			/>
-			<label class="toggle" for="sounds-toggle"/>
-		</div>
+		<drop-down
+			name="Default paper color"
+			description="The color chosen for new documents"
+			no-selection="Random"
+			:options="[...ALL_COLORS]"
+			:value="userPreferences.defaultPaperColor.value"
+			@update:value="(updated: string | undefined) => update(userPreferences.defaultPaperColor, updated)"
+
+		/>
+		<toggle
+			name="Ink bleed"
+			description="Soften the edges of letters and pen marks"
+			:value="userPreferences.inkBleed.value"
+			@update:value="(updated: boolean) => update(userPreferences.inkBleed, updated)"
+		/>
+		<toggle
+			name="Page markers"
+			description="Show small indicators to mark where the page ends (horizontally and vertically)"
+			:value="userPreferences.pageMarkers.value"
+			@update:value="(updated: boolean) => update(userPreferences.pageMarkers, updated)"
+		/>
+		<toggle
+			name="Bell sound"
+			description="Ding the bell when approaching the end of the page"
+			:value="userPreferences.bellSound.value"
+			@update:value="(updated: boolean) => update(userPreferences.bellSound, updated)"
+		/>
+		<toggle
+			name="Typewriter sounds"
+			description="Play sounds when the page moves and when letters are printed"
+			:value="userPreferences.otherSounds.value"
+			@update:value="(updated: boolean) => update(userPreferences.otherSounds, updated)"
+		/>
 	</section>
 </template>
 
 <script setup lang="ts">
+	import { Ref } from 'vue'
 	import { ALL_COLORS } from '../util/paper-color'
 	import { updatePreferences, userPreferences } from '../util/preferences'
+	import DropDown from './settings-inputs/DropDown.vue'
+	import Toggle from './settings-inputs/Toggle.vue'
 
-	function capitalize(text: string) {
-		return text.charAt(0).toUpperCase() + text.slice(1)
+	function update<T>(ref: Ref<T>, updateWith: T) {
+		ref.value = updateWith
+		updatePreferences()
 	}
 </script>
 
