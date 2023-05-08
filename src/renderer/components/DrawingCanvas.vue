@@ -41,7 +41,7 @@
 	const MAX_WIDTH = 2
 	let isDrawing = false
 
-	const elementId = uuid()
+	const elementId = `canvas-${uuid()}`
 
 	// 32,767 maximum width or height, 268,435,456 maximum area
 	// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas#maximum_canvas_size
