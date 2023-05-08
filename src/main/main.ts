@@ -1,7 +1,7 @@
 import { app, BrowserWindow, session, dialog, MenuItemConstructorOptions, shell, MenuItem } from 'electron'
 import isFirstLaunch from 'electron-first-run'
 import { Color, ColorName } from '../renderer/util/paper-color'
-import { OliFile, OliFileVersion1, FILE_EXTENSION } from '../renderer/util/oli-file'
+import { OliFile, FILE_EXTENSION, compress, CompressedOliFile, uncompress } from '../renderer/util/oli-file'
 import { newWindow, setMenu } from './window'
 import { Channel } from '../renderer/util/electron/ipc-main-channel'
 import * as fs from 'fs'
@@ -352,7 +352,10 @@ function getSelectedColorOption(paperColorSubmenu: MenuItem | null): ColorName |
 }
 
 function saveFile(window: BrowserWindow, windowData: PageData, filePath: string, file: OliFile): void {
-	fs.writeFile(filePath + FILE_EXTENSION, JSON.stringify(file), (error) => {
+	
+	const compressedFile = compress(file)
+
+	fs.writeFile(filePath + FILE_EXTENSION, JSON.stringify(compressedFile), (error) => {
 
 		if (error) {
 			return dialog.showErrorBox('Unable to save document', 
@@ -366,15 +369,19 @@ function saveFile(window: BrowserWindow, windowData: PageData, filePath: string,
 
 function openFile(window: BrowserWindow, filepath: string): void {
 	fs.readFile(filepath + FILE_EXTENSION, {encoding: 'utf-8'}, (error, data) => {
-		
-		// we can assume the file is an Oli file, but not necessarily any single version of an Oli file
-		const file: OliFile = JSON.parse(data)
 
 		if (error) {
 			return dialog.showErrorBox('Unable to open document', 
 				'An unexpected error occurred trying to open that file. ' +
 				'Please try again, and if the issue persists, file a bug report.')
 		}
+
+		// we can assume the data is an Oli file, but not necessarily any single version of an Oli file
+		const parsedData: OliFile | CompressedOliFile = JSON.parse(data)
+
+		const file = (parsedData.version == 2.0)
+			? uncompress(parsedData)
+			: parsedData
 
 		window.on('ready-to-show', () => {
 			Channel.FILE_CONTENT.send(window, file)
